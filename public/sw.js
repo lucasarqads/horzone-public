@@ -1,10 +1,9 @@
-const CACHE_NAME = "leticia-pwa-v4";
+const CACHE_NAME = "horzone-pwa-v5";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.json",
   "./assets/app.js",
-  "./assets/index.js",
   "./assets/main.css",
 ];
 
