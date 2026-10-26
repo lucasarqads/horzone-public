@@ -337,43 +337,6 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="landing-profile-preview relative mx-auto w-full max-w-md">
-            <div
-              aria-hidden="true"
-              className="absolute -inset-4 rotate-3 rounded-[2.5rem] bg-gradient-to-br from-indigo-300 via-violet-200 to-rose-200 opacity-70 blur-sm"
-            />
-            <div className="landing-profile-card relative rounded-[2rem] border border-white/80 bg-white p-5 shadow-2xl shadow-indigo-950/15 sm:p-7">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-bold text-slate-900">Seu perfil BioWeb</span>
-                <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">Online</span>
-              </div>
-              <div className="landing-profile-summary mt-6 rounded-2xl bg-gradient-to-br from-indigo-100 via-violet-50 to-rose-100 p-6 text-center">
-                <div className="landing-profile-avatar mx-auto grid h-20 w-20 place-items-center rounded-full border-4 border-white bg-indigo-200 text-3xl shadow-md">✳</div>
-                <p className="mt-4 text-lg font-bold text-slate-900">Seu nome criativo</p>
-                <p className="mt-1 text-sm text-slate-600">Criadora UGC · Moda · Beleza</p>
-                <div className="mt-5 flex justify-center gap-2">
-                  <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-sm">◎</span>
-                  <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-sm">♪</span>
-                  <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-sm">↗</span>
-                </div>
-              </div>
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                <div className="aspect-[4/3] rounded-xl bg-gradient-to-br from-amber-100 to-rose-200 p-3">
-                  <span className="flex h-full items-end rounded-lg bg-white/25 p-2 text-xs font-semibold text-slate-800">Seu conteúdo</span>
-                </div>
-                <div className="aspect-[4/3] rounded-xl bg-gradient-to-br from-sky-100 to-indigo-200 p-3">
-                  <span className="flex h-full items-end rounded-lg bg-white/25 p-2 text-xs font-semibold text-slate-800">Seus trabalhos</span>
-                </div>
-              </div>
-              <div className="mt-4 rounded-xl bg-slate-950 px-4 py-3 text-center text-sm font-semibold text-white">
-                Vamos criar algo incrível ↗
-              </div>
-            </div>
-            <div className="absolute -bottom-5 -left-5 hidden rounded-2xl border border-white bg-white px-4 py-3 shadow-xl sm:block">
-              <p className="text-xs text-slate-500">Sua presença digital</p>
-              <p className="mt-0.5 text-sm font-bold text-slate-900">com a sua identidade</p>
-            </div>
-          </div>
         </div>
       </section>
 

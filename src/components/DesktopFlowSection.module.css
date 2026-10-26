@@ -524,7 +524,12 @@
     gap: 3rem;
   }
 
+  .controls {
+    grid-row: 1;
+  }
+
   .browserWrap {
+    grid-row: 2;
     max-width: 52rem;
     width: 100%;
     margin: 0 auto;

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import styles from "./MobileFlowSection.module.css";
 
 type FlowKey = "perfil" | "vitrine" | "cupons";
@@ -115,22 +115,7 @@ function CouponsFlow() {
 export default function MobileFlowSection() {
   const [activeFlow, setActiveFlow] = useState<FlowKey>("perfil");
   const [activeStep, setActiveStep] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const flow = flows[activeFlow];
-
-  const advanceFlow = useCallback(() => {
-    setActiveFlow((currentFlow) => {
-      const nextIndex = (flowKeys.indexOf(currentFlow) + 1) % flowKeys.length;
-      setActiveStep(nextIndex % 4);
-      return flowKeys[nextIndex];
-    });
-  }, []);
-
-  useEffect(() => {
-    if (isPaused) return;
-    const intervalId = window.setInterval(advanceFlow, 2000);
-    return () => window.clearInterval(intervalId);
-  }, [advanceFlow, isPaused]);
 
   const selectFlow = useCallback((key: FlowKey) => {
     setActiveFlow(key);
@@ -138,7 +123,7 @@ export default function MobileFlowSection() {
   }, []);
 
   return (
-    <div className={styles.section} onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
+    <div className={styles.section}>
       <div className={styles.glow} aria-hidden="true" />
       <div className={styles.content}>
         <div className={styles.copy}>
