@@ -1,16 +1,7 @@
-const CACHE_NAME = "horzone-pwa-v5";
-const APP_SHELL = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./assets/app.js",
-  "./assets/main.css",
-];
+const CACHE_NAME = "horzone-pwa-v6";
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()),
-  );
+  event.waitUntil(self.skipWaiting());
 });
 
 self.addEventListener("activate", (event) => {
@@ -25,6 +16,16 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET" || new URL(event.request.url).origin !== self.location.origin) return;
 
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => cachedResponse || fetch(event.request)),
+    fetch(event.request)
+      .then((response) => {
+        if (response.ok) {
+          const responseToCache = response.clone();
+          void caches.open(CACHE_NAME).then((cache) => {
+            void cache.put(event.request, responseToCache);
+          });
+        }
+        return response;
+      })
+      .catch(() => caches.match(event.request)),
   );
 });
