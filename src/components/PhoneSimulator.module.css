@@ -1,0 +1,275 @@
+.wrapper {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  width: min(100%, 43rem);
+  padding: 3.5rem 5.5rem;
+  color: #18211d;
+}
+
+.tabs {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border: 1px solid #dfe8e2;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0.75rem 2rem rgba(34, 58, 46, 0.1);
+  backdrop-filter: blur(0.75rem);
+}
+
+.tab {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  color: #66746c;
+  background: transparent;
+  cursor: pointer;
+  font: 600 0.72rem/1 "Space Grotesk", sans-serif;
+  transition: color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.tab:hover {
+  color: #1d5d43;
+}
+
+.tabActive {
+  color: #fff;
+  background: #1e7651;
+  box-shadow: 0 0.25rem 0.75rem rgba(30, 118, 81, 0.25);
+}
+
+.phone {
+  position: relative;
+  width: min(100%, 18.75rem);
+  aspect-ratio: 1 / 2;
+  padding: 0.62rem;
+  border: 0.55rem solid #17211d;
+  border-radius: 3rem;
+  background: #17211d;
+  box-shadow: 0 2rem 3.5rem rgba(26, 53, 39, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+.phone::before {
+  position: absolute;
+  top: -0.55rem;
+  left: 50%;
+  width: 5.6rem;
+  height: 1.55rem;
+  border-radius: 0 0 1rem 1rem;
+  background: #17211d;
+  content: "";
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 2.2rem;
+  background: #f4f8f4;
+}
+
+.statusBar {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.85rem 1.15rem 0.35rem;
+  color: #28352e;
+  font-size: 0.58rem;
+  font-weight: 700;
+}
+
+.statusIcons {
+  display: flex;
+  gap: 0.28rem;
+  align-items: center;
+}
+
+.statusIcon {
+  width: 0.8rem;
+  height: 0.45rem;
+  border: 1px solid currentColor;
+  border-radius: 0.12rem;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1rem 0.75rem;
+  border-bottom: 1px solid #e1ebe3;
+  background: #fff;
+}
+
+.profileLogo {
+  display: grid;
+  width: 2.1rem;
+  height: 2.1rem;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(135deg, #2da86d, #12583d);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.profileName {
+  margin: 0;
+  font-size: 0.73rem;
+  font-weight: 800;
+}
+
+.profileStatus {
+  display: block;
+  margin-top: 0.12rem;
+  color: #63816f;
+  font-size: 0.57rem;
+}
+
+.messages {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.9rem 0.72rem;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(194, 226, 203, 0.35), transparent 32%),
+    #eef6ef;
+}
+
+.message {
+  max-width: 84%;
+  padding: 0.55rem 0.68rem;
+  border-radius: 0.9rem;
+  color: #334038;
+  background: #fff;
+  box-shadow: 0 0.2rem 0.5rem rgba(41, 71, 54, 0.06);
+  font-size: 0.66rem;
+  line-height: 1.4;
+}
+
+.messageReceived {
+  align-self: flex-start;
+  border-top-left-radius: 0.25rem;
+}
+
+.messageSent {
+  align-self: flex-end;
+  border-top-right-radius: 0.25rem;
+  color: #173d2b;
+  background: #d5f7d9;
+}
+
+.messageTime {
+  display: block;
+  margin-top: 0.2rem;
+  color: #7d9585;
+  font-size: 0.5rem;
+  text-align: right;
+}
+
+.composer {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.65rem 0.75rem 0.85rem;
+  background: #fff;
+}
+
+.composerInput {
+  flex: 1;
+  padding: 0.55rem 0.7rem;
+  border-radius: 999px;
+  color: #9aa9a0;
+  background: #f0f4f0;
+  font-size: 0.6rem;
+}
+
+.send {
+  display: grid;
+  width: 1.8rem;
+  height: 1.8rem;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: #1e7651;
+  font-size: 0.7rem;
+}
+
+.floatingCard {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: 10rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid rgba(225, 235, 227, 0.9);
+  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 1rem 2rem rgba(35, 69, 49, 0.13);
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1.25;
+  animation: float 4s ease-in-out infinite;
+}
+
+.floatingCard::before {
+  display: grid;
+  flex: 0 0 auto;
+  width: 1.65rem;
+  height: 1.65rem;
+  place-items: center;
+  border-radius: 0.55rem;
+  color: #1e7651;
+  background: #e7f7e9;
+  content: "✓";
+  font-size: 0.8rem;
+}
+
+.floatingCard:nth-of-type(2) {
+  top: 31%;
+  left: 0;
+}
+
+.floatingCard:nth-of-type(3) {
+  right: 0;
+  bottom: 25%;
+  animation-delay: -1.4s;
+}
+
+.floatingCard:nth-of-type(4) {
+  top: 17%;
+  right: -1.5rem;
+  animation-delay: -2.5s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.45rem);
+  }
+}
+
+@media (max-width: 42rem) {
+  .wrapper {
+    padding-inline: 0;
+  }
+
+  .floatingCard {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floatingCard {
+    animation: none;
+  }
+}

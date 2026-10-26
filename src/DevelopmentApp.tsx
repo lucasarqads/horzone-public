@@ -1,14 +1,12 @@
 import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
-import { AuthProvider } from "./contexts/AuthContext";
-import PrivateRoute from "./components/PrivateRoute";
+import { Route, Routes } from "react-router-dom";
 import Carousel from "./components/Carousel";
 import Header from "./components/Header";
 import Reveal from "./components/Reveal";
 import VideoCard from "./components/VideoCard";
 import LandingPage from "./pages/LandingPage";
-import AdminDashboardPage from "./pages/AdminDashboardPage";
-import LoginPage from "./pages/LoginPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import TermsPage from "./pages/TermsPage";
 
 type Coupon = {
   brand: string;
@@ -424,34 +422,21 @@ function CouponPage() {
 
 export default function DevelopmentApp() {
   return (
-    <AuthProvider>
-      <Routes>
-        {/* Landing Page e Páginas Públicas */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/voucher.html" element={<CouponPage />} />
-        <Route path="/portfolio-demo" element={<Portfolio />} />
-        <Route path="/leticiajpg" element={<Portfolio />} />
-
-        {/* Autenticação e Painel */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/admin" element={<PrivateRoute />}>
-          <Route index element={<AdminDashboardPage />} />
-          <Route path="*" element={<AdminDashboardPage />} />
-        </Route>
-
-        {/* Redirecionamento amigável para tentativas alternativas de login */}
-        <Route path="/admin/login" element={<Navigate to="/login" replace />} />
-
-        {/* Rota Fallback (Página Não Encontrada) */}
-        <Route
-          path="*"
-          element={
-            <main className="grid min-h-screen place-items-center px-6 text-center">
-              <h1 className="text-2xl font-bold">Página não encontrada.</h1>
-            </main>
-          }
-        />
-      </Routes>
-    </AuthProvider>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/voucher.html" element={<CouponPage />} />
+      <Route path="/portfolio-demo" element={<Portfolio />} />
+      <Route path="/leticiajpg" element={<Portfolio />} />
+      <Route path="/termos" element={<TermsPage />} />
+      <Route path="/privacidade" element={<PrivacyPolicyPage />} />
+      <Route
+        path="*"
+        element={
+          <main className="grid min-h-screen place-items-center px-6 text-center">
+            <h1 className="text-2xl font-bold">Página não encontrada.</h1>
+          </main>
+        }
+      />
+    </Routes>
   );
 }

@@ -24,6 +24,10 @@ h3 {
   text-transform: uppercase;
 }
 
+p {
+  line-height: 1.5;
+}
+
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
@@ -43,174 +47,6 @@ img {
   user-drag: none;
 }
 
-@keyframes floatSoft {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
-}
-
-.landing-benefits-image {
-  display: block;
-}
-
-.landing-benefits-badge {
-  animation: floatSoft 6s ease-in-out infinite;
-  animation-delay: 0.5s;
-}
-
-.landing-benefits-effects {
-  overflow: hidden;
-  border-radius: 2rem;
-  pointer-events: none;
-}
-
-.landing-benefits-steam {
-  position: absolute;
-  top: 47%;
-  width: 1.25rem;
-  height: 2rem;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgb(100 116 139 / 58%) 0, rgb(100 116 139 / 28%) 45%, transparent 75%);
-  filter: blur(3px);
-  opacity: 0;
-  transform-origin: center bottom;
-  animation: benefits-steam-rise 3.8s ease-out infinite;
-}
-
-.landing-benefits-steam-one {
-  left: 61%;
-}
-
-.landing-benefits-steam-two {
-  left: 65%;
-  height: 2rem;
-  animation-delay: 1.1s;
-}
-
-.landing-benefits-steam-three {
-  left: 69%;
-  height: 2.3rem;
-  animation-delay: 2.2s;
-}
-
-.landing-benefits-notification-pulse,
-.landing-benefits-success-pulse {
-  position: absolute;
-  border: 2px solid rgb(34 197 94 / 60%);
-  border-radius: 9999px;
-  animation: benefits-notification-pulse 3.6s ease-out infinite;
-}
-
-.landing-benefits-notification-pulse {
-  top: 20%;
-  left: 25%;
-  width: 27%;
-  height: 12%;
-}
-
-.landing-benefits-success-pulse {
-  top: 32%;
-  left: 43%;
-  width: 10%;
-  aspect-ratio: 1;
-  animation-delay: 1.2s;
-}
-
-.landing-benefits-card-glint {
-  position: absolute;
-  top: 36%;
-  left: 30%;
-  width: 20%;
-  height: 10%;
-  overflow: hidden;
-  border-radius: 0.75rem;
-  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 65%) 50%, transparent 70%);
-  background-size: 220% 100%;
-  animation: benefits-card-shimmer 4.8s ease-in-out infinite;
-}
-
-.landing-benefits-receipt-chip {
-  position: absolute;
-  top: 56%;
-  left: 10%;
-  padding: 0.3rem 0.6rem;
-  border: 1px solid rgb(255 255 255 / 80%);
-  border-radius: 9999px;
-  background: #16a34a;
-  color: white;
-  font-size: clamp(0.5rem, 1.5vw, 0.7rem);
-  font-weight: 700;
-  box-shadow: 0 4px 12px rgb(15 23 42 / 18%);
-  animation: benefits-receipt-float 3.8s ease-in-out infinite;
-}
-
-@keyframes benefits-steam-rise {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 0.5rem, 0) scale(0.55, 0.7) rotate(-8deg);
-  }
-
-  35% {
-    opacity: 0.65;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate3d(0.8rem, -3.8rem, 0) scale(1.35, 1.2) rotate(12deg);
-  }
-}
-
-@keyframes benefits-notification-pulse {
-  0%,
-  55%,
-  100% {
-    opacity: 0;
-    transform: scale(0.92);
-  }
-
-  65% {
-    opacity: 0.8;
-    transform: scale(1);
-  }
-
-  82% {
-    opacity: 0;
-    transform: scale(1.12);
-  }
-}
-
-@keyframes benefits-card-shimmer {
-  0%,
-  20%,
-  100% {
-    background-position: 120% 0;
-    opacity: 0;
-    transform: translateY(0.1rem) rotate(-8deg);
-  }
-
-  45%,
-  65% {
-    background-position: -120% 0;
-    opacity: 0.75;
-    transform: translateY(-0.1rem) rotate(-8deg);
-  }
-}
-
-@keyframes benefits-receipt-float {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) rotate(-3deg);
-  }
-
-  50% {
-    transform: translate3d(0.25rem, -0.4rem, 0) rotate(2deg);
-  }
-}
-
 html {
   min-width: 320px;
   min-height: 100%;
@@ -226,6 +62,159 @@ html {
 
 .landing-fullscreen-section > div {
   width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+}
+
+.landing-page {
+  --landing-body-size: 1rem;
+  --landing-body-line: 1.6;
+  --landing-label-size: 0.75rem;
+  --landing-h2-size: clamp(2rem, 3.8vw, 3rem);
+  --landing-h3-size: 1.25rem;
+}
+
+.landing-connected-section {
+  position: relative;
+  overflow: visible;
+  min-height: auto;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 78% 18%, rgba(129, 140, 248, 0.1), transparent 25rem),
+    radial-gradient(circle at 18% 68%, rgba(199, 210, 254, 0.18), transparent 28rem),
+    #fff;
+}
+
+.landing-connected-section::before,
+.landing-connected-section::after {
+  position: absolute;
+  z-index: -1;
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.landing-connected-section::before {
+  width: 42rem;
+  height: 42rem;
+  top: -18rem;
+  right: -14rem;
+}
+
+.landing-connected-section::after {
+  width: 34rem;
+  height: 34rem;
+  bottom: -16rem;
+  left: -12rem;
+  filter: blur(0.1rem);
+}
+
+.landing-page {
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.landing-page > section:not(#tudo-conectado) h2 {
+  font-size: var(--landing-h2-size);
+  line-height: 1.05;
+}
+
+.landing-page > .landing-hero h1 {
+  font-size: clamp(2.75rem, 6vw, 4.5rem);
+  line-height: 0.98;
+}
+
+.landing-page #tudo-conectado > div > div:first-child h2 {
+  font-size: var(--landing-h2-size);
+  line-height: 1.05;
+}
+
+.landing-page > section:not(#tudo-conectado) h3 {
+  font-size: var(--landing-h3-size);
+  line-height: 1.2;
+}
+
+.landing-page #tudo-conectado article h3 {
+  font-size: var(--landing-h3-size);
+  line-height: 1.2;
+}
+
+.landing-page > section:not(#tudo-conectado) p {
+  font-size: var(--landing-body-size);
+  line-height: var(--landing-body-line);
+}
+
+.landing-page #tudo-conectado > div > div:first-child > p,
+.landing-page #tudo-conectado article p {
+  font-size: var(--landing-body-size);
+  line-height: var(--landing-body-line);
+}
+
+.landing-page > section:not(#tudo-conectado) p[class*="text-xs"],
+.landing-page > section:not(#tudo-conectado) span[class*="text-xs"] {
+  font-size: var(--landing-label-size);
+  line-height: 1.35;
+}
+
+.landing-page .landing-plan-description,
+.landing-page .landing-plan-features,
+.landing-page .landing-plan-footnote {
+  font-size: 0.875rem;
+}
+
+.landing-page .landing-plan-footnote {
+  font-size: var(--landing-label-size);
+  line-height: 1.35;
+}
+
+.landing-page label {
+  font-size: var(--landing-body-size);
+  line-height: 1.4;
+}
+
+/* Landing typography scale: display, section title, body, and supporting text. */
+.landing-page > section:not(#tudo-conectado) h1,
+.landing-page > section:not(#tudo-conectado) h2 {
+  font-size: var(--landing-h2-size);
+  line-height: 1.05;
+}
+
+.landing-page > section:not(#tudo-conectado) h3 {
+  font-size: var(--landing-h3-size);
+  line-height: 1.2;
+}
+
+.landing-page > section:not(#tudo-conectado) p {
+  font-size: var(--landing-body-size);
+  line-height: var(--landing-body-line);
+}
+
+.landing-page > section:not(#tudo-conectado) p[class*="text-xs"],
+.landing-page > section:not(#tudo-conectado) span[class*="text-xs"] {
+  font-size: var(--landing-label-size);
+  line-height: 1.35;
+}
+
+.landing-page > section:not(#tudo-conectado) button,
+.landing-page > section:not(#tudo-conectado) a {
+  font-size: 0.875rem;
+}
+
+.landing-page > section:not(#tudo-conectado) input,
+.landing-page > section:not(#tudo-conectado) select,
+.landing-page > section:not(#tudo-conectado) textarea {
+  font-size: var(--landing-body-size);
+  line-height: 1.5;
+}
+
+.landing-page > section .landing-plan-price > span:nth-child(2) {
+  font-size: clamp(2.25rem, 4vw, 3rem);
+}
+
+.landing-page > section .landing-plan-footnote {
+  font-size: var(--landing-label-size);
+  line-height: 1.35;
 }
 
 html::-webkit-scrollbar,
@@ -449,6 +438,92 @@ body {
 
   .landing-plan-footnote {
     margin-top: 0.5rem;
+  }
+}
+
+@media (min-width: 64rem) and (max-height: 50rem) {
+  .landing-plan-section {
+    min-height: auto;
+    padding-block: 1.5rem;
+  }
+
+  .landing-plan-intro > h2 {
+    margin-top: 0.25rem;
+    font-size: clamp(1.9rem, 3vw, 2.5rem);
+    line-height: 1;
+  }
+
+  .landing-plan-subtitle {
+    margin-top: 0.35rem;
+    font-size: 0.875rem;
+    line-height: 1.25;
+  }
+
+  .landing-plan-grid {
+    margin-top: 1rem;
+    gap: 0.75rem;
+  }
+
+  .landing-plan-card {
+    margin-block: 0;
+    padding: 1rem;
+    border-radius: 1.25rem;
+  }
+
+  .landing-plan-badge {
+    top: -0.55rem;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.625rem;
+  }
+
+  .landing-plan-name {
+    font-size: 0.95rem;
+    line-height: 1.1;
+  }
+
+  .landing-plan-description {
+    min-height: 3.2rem;
+    margin-top: 0.35rem;
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .landing-plan-price {
+    margin-top: 0.35rem;
+    line-height: 1;
+  }
+
+  .landing-plan-price > span:first-child,
+  .landing-plan-price > span:last-child {
+    font-size: 0.7rem;
+  }
+
+  .landing-plan-price > span:nth-child(2) {
+    font-size: 2rem;
+  }
+
+  .landing-plan-features {
+    gap: 0.25rem;
+    margin-top: 0.65rem;
+    padding-top: 0.65rem;
+    font-size: 0.7rem;
+    line-height: 1.15;
+  }
+
+  .landing-plan-features > li + li {
+    margin-top: 0.25rem;
+  }
+
+  .landing-plan-cta {
+    margin-top: 0.85rem;
+    padding-block: 0.55rem;
+    font-size: 0.75rem;
+  }
+
+  .landing-plan-footnote {
+    margin-top: 0.5rem;
+    font-size: 0.625rem;
+    line-height: 1.2;
   }
 }
 
