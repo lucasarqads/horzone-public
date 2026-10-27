@@ -16,6 +16,15 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// No celular a barra de endereço some/volta ao parar e retomar o scroll, gerando
+// resize; o refresh completo do ScrollTrigger nesse momento é o que engasgava.
+// Em telas só de toque o refresh fica para load e troca de orientação.
+const isTouchOnly = ScrollTrigger.isTouch === 1;
+ScrollTrigger.config({
+  ignoreMobileResize: true,
+  ...(isTouchOnly && { autoRefreshEvents: "visibilitychange,DOMContentLoaded,load" }),
+});
+
 type ContactField = "name" | "email" | "phone" | "instagram" | "plan" | "message";
 type ContactErrors = Partial<Record<ContactField, string>>;
 
@@ -155,6 +164,10 @@ export default function LandingPage() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // No celular os reveals tocam uma vez só e o parallax fica desligado,
+        // para não disputar frames com o scroll.
+        const isMobile = !window.matchMedia("(min-width: 768px)").matches;
+
         // Enquanto o GSAP anima, o transition do CSS fica desligado para não
         // brigar com ele; no fim o transform é limpo para os hovers voltarem.
         const setAnimating = (targets: gsap.TweenTarget, animating: boolean) =>
@@ -184,7 +197,7 @@ export default function LandingPage() {
           start: "top 85%",
           toggleActions: "none none none none",
           onEnter: playReveal,
-          onLeaveBack: reverseReveal,
+          onLeaveBack: isMobile ? undefined : reverseReveal,
         });
 
         // data-gsap-from escolhe de onde o conteúdo entra.
@@ -306,8 +319,7 @@ export default function LandingPage() {
           });
         });
 
-        // Parallax com scrub fica só no desktop: no celular custa frames no scroll.
-        if (!window.matchMedia("(min-width: 768px)").matches) return () => removeMeasureListener?.();
+        if (isMobile) return () => removeMeasureListener?.();
 
         gsap.utils.toArray<HTMLElement>("[data-gsap-parallax]").forEach((element) => {
           const speed = Number(element.dataset.gsapParallax) || 20;
@@ -331,7 +343,13 @@ export default function LandingPage() {
       });
     }, page);
 
-    return () => ctx.revert();
+    const refreshOnRotate = () => ScrollTrigger.refresh();
+    if (isTouchOnly) window.addEventListener("orientationchange", refreshOnRotate);
+
+    return () => {
+      window.removeEventListener("orientationchange", refreshOnRotate);
+      ctx.revert();
+    };
   }, []);
 
   const prewarmLeadService = () => {
@@ -441,7 +459,7 @@ export default function LandingPage() {
   };
 
   return (
-    <main ref={pageRef} className="landing-page min-h-screen overflow-hidden bg-[#faf9f6] text-slate-950">
+    <main ref={pageRef} className="landing-page min-h-screen bg-[#faf9f6] text-slate-950">
       <a
         href="https://wa.me/qr/GEGVWDDK4XMDP1"
         target="_blank"

@@ -108,11 +108,13 @@ html {
   height: 34rem;
   bottom: -16rem;
   left: -12rem;
-  filter: blur(0.1rem);
 }
 
+/* clip corta o vazamento lateral sem virar container de scroll
+   (hidden + visible vira auto e o celular disputa o toque com a janela). */
 .landing-page {
   overflow-x: hidden;
+  overflow-x: clip;
   overflow-y: visible;
 }
 
@@ -228,7 +230,8 @@ body {
   position: relative;
   isolation: isolate;
   min-height: 100vh;
-  min-height: 100dvh;
+  /* svh é fixo; dvh muda junto com a barra do navegador e refaz o layout. */
+  min-height: 100svh;
   margin: 0;
   overflow-x: hidden;
   padding-top: env(safe-area-inset-top, 0);
