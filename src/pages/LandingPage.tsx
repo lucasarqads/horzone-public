@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   type FormEvent,
@@ -10,6 +11,10 @@ import ComparisonSection from "../components/ComparisonSection";
 import PricingSection, { pricingPlans } from "../components/PricingSection";
 import Footer from "../components/Footer";
 import { submitLead, warmLeadService } from "../services/leadService";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type ContactField = "name" | "email" | "phone" | "instagram" | "plan" | "message";
 type ContactErrors = Partial<Record<ContactField, string>>;
@@ -105,6 +110,7 @@ export default function LandingPage() {
   const [selectedPlan, setSelectedPlan] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const submitLock = useRef(false);
+  const pageRef = useRef<HTMLElement>(null);
   const [formFeedback, setFormFeedback] = useState<{
     type: "success" | "error";
     message: string;
@@ -139,6 +145,190 @@ export default function LandingPage() {
       document.removeEventListener("contextmenu", preventContextMenu);
       document.removeEventListener("keydown", preventRestrictedShortcuts);
     };
+  }, []);
+
+  useLayoutEffect(() => {
+    const page = pageRef.current;
+    if (!page) return;
+
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // Enquanto o GSAP anima, o transition do CSS fica desligado para não
+        // brigar com ele; no fim o transform é limpo para os hovers voltarem.
+        const setAnimating = (targets: gsap.TweenTarget, animating: boolean) =>
+          gsap.utils
+            .toArray<HTMLElement>(targets)
+            .forEach((element) => element.classList.toggle("gsap-animating", animating));
+        const settle = (targets: gsap.TweenTarget) => {
+          setAnimating(targets, false);
+          gsap.set(targets, { clearProps: "transform" });
+        };
+
+        // O reverse roda mais rápido que a entrada ao voltar o scroll.
+        const playReveal = (st: ScrollTrigger) => {
+          const animation = st.animation;
+          if (!animation || (animation.progress() === 1 && !animation.reversed())) return;
+          setAnimating((animation as gsap.core.Tween).targets(), true);
+          animation.timeScale(1).play();
+        };
+        const reverseReveal = (st: ScrollTrigger) => {
+          const animation = st.animation;
+          if (!animation || animation.progress() === 0) return;
+          setAnimating((animation as gsap.core.Tween).targets(), true);
+          animation.timeScale(2.5).reverse();
+        };
+        const revealTrigger = (trigger: HTMLElement): ScrollTrigger.Vars => ({
+          trigger,
+          start: "top 85%",
+          toggleActions: "none none none none",
+          onEnter: playReveal,
+          onLeaveBack: reverseReveal,
+        });
+
+        // data-gsap-from escolhe de onde o conteúdo entra.
+        const fromVars = (element: HTMLElement, distance: number): gsap.TweenVars => {
+          switch (element.dataset.gsapFrom) {
+            case "left":
+              return { x: -distance, opacity: 0 };
+            case "right":
+              return { x: distance, opacity: 0 };
+            case "scale":
+              return { scale: 0.92, y: distance / 2, opacity: 0 };
+            default:
+              return { y: distance, opacity: 0 };
+          }
+        };
+
+        const reveal = (targets: gsap.TweenTarget, vars: gsap.TweenVars, trigger: HTMLElement) =>
+          gsap.from(targets, {
+            ease: "power3.out",
+            ...vars,
+            onComplete: () => settle(targets),
+            onReverseComplete: () => setAnimating(targets, false),
+            scrollTrigger: revealTrigger(trigger),
+          });
+
+        const heroTargets = "[data-gsap^='hero-'], [data-gsap='hero-actions'] > *, [data-gsap='hero-proof'] > *";
+        setAnimating(heroTargets, true);
+        gsap
+          .timeline({
+            defaults: { ease: "power3.out", duration: 0.9 },
+            onComplete: () => settle(heroTargets),
+          })
+          .from("[data-gsap='hero-badge']", { y: 24, opacity: 0, duration: 0.7 })
+          .from("[data-gsap='hero-title']", { y: 48, opacity: 0 }, "-=0.45")
+          .from("[data-gsap='hero-copy']", { y: 32, opacity: 0 }, "-=0.6")
+          .from("[data-gsap='hero-actions'] > *", { y: 24, opacity: 0, stagger: 0.08, duration: 0.7 }, "-=0.55")
+          .from("[data-gsap='hero-proof'] > *", { y: 16, opacity: 0, stagger: 0.08, duration: 0.6 }, "-=0.45")
+          // Só opacidade: o slot é a referência de medida da viagem do logo.
+          .from("[data-gsap='hero-visual']", { opacity: 0, duration: 1.2 }, 0.2);
+
+        // O logo do hero desce com o scroll até o avatar do celular da BioWeb
+        // e se funde a ele; voltando o scroll, refaz o caminho ao contrário.
+        const heroSlot = page.querySelector<HTMLElement>("[data-hero-slot]");
+        const heroTarget = page.querySelector<HTMLElement>("[data-hero-target]");
+        const heroPhone = page.querySelector<HTMLElement>("[data-hero-phone]");
+        let removeMeasureListener: (() => void) | undefined;
+        if (heroSlot && heroTarget && heroPhone) {
+          let distance = { x: 0, y: 0, scale: 1 };
+          const measure = () => {
+            const from = heroSlot.getBoundingClientRect();
+            const to = heroTarget.getBoundingClientRect();
+            distance = {
+              x: to.left + to.width / 2 - (from.left + from.width / 2),
+              y: to.top + to.height / 2 - (from.top + from.height / 2),
+              // O desenho do logo ocupa ~60% do SVG; termina um pouco maior que o avatar.
+              scale: (to.width * 1.7) / from.width,
+            };
+          };
+          measure();
+          ScrollTrigger.addEventListener("refreshInit", measure);
+          removeMeasureListener = () => ScrollTrigger.removeEventListener("refreshInit", measure);
+
+          gsap
+            .timeline({
+              defaults: { ease: "none" },
+              scrollTrigger: {
+                trigger: heroSlot,
+                start: 0,
+                endTrigger: heroPhone,
+                end: "center center",
+                scrub: 1.2,
+                invalidateOnRefresh: true,
+              },
+            })
+            .to("[data-hero-box]", {
+              x: () => distance.x,
+              y: () => distance.y,
+              scale: () => distance.scale,
+              ease: "power1.inOut",
+              duration: 1,
+            }, 0)
+            .to("[data-hero-shadow]", { opacity: 0, scaleX: 0.5, duration: 0.2 }, 0)
+            .to("[data-hero-glow]", { opacity: 1, duration: 0.25 }, 0.7)
+            .to("[data-hero-box]", { opacity: 0, filter: "brightness(1.5) blur(1px)", duration: 0.12 }, 0.9)
+            .to("[data-hero-avatar-default]", { opacity: 0, duration: 0.12 }, 0.9)
+            .to("[data-hero-avatar-logo], [data-hero-halo]", { opacity: 1, duration: 0.12 }, 0.92)
+            .to("[data-hero-glow]", { opacity: 0.35, duration: 0.1 }, 1);
+        }
+
+        gsap.utils.toArray<HTMLElement>("[data-gsap='reveal']").forEach((element) => {
+          reveal(element, { ...fromVars(element, 56), duration: 1 }, element);
+        });
+
+        gsap.utils.toArray<HTMLElement>("[data-gsap='stagger']").forEach((group) => {
+          reveal(
+            Array.from(group.children),
+            { ...fromVars(group, 36), duration: 0.75, stagger: 0.09 },
+            group,
+          );
+        });
+
+        // Voltando o scroll, os elementos saem assim que a seção anterior
+        // aparece no topo, sem esperar cada um descer até a linha de entrada.
+        const reveals = ScrollTrigger.getAll().filter((st) => st.vars.onLeaveBack === reverseReveal);
+        page.querySelectorAll<HTMLElement>("section").forEach((section) => {
+          const sectionReveals = reveals.filter(
+            (st) => (st.trigger as Element).closest("section") === section,
+          );
+          if (!sectionReveals.length) return;
+
+          ScrollTrigger.create({
+            trigger: section,
+            start: "top top",
+            onEnter: () =>
+              sectionReveals.forEach((st) => {
+                if (st.scroll() >= st.start) playReveal(st);
+              }),
+            onLeaveBack: () => sectionReveals.forEach(reverseReveal),
+          });
+        });
+
+        gsap.utils.toArray<HTMLElement>("[data-gsap-parallax]").forEach((element) => {
+          const speed = Number(element.dataset.gsapParallax) || 20;
+          gsap.fromTo(
+            element,
+            { yPercent: -speed },
+            {
+              yPercent: speed,
+              ease: "none",
+              scrollTrigger: {
+                trigger: element.parentElement,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true,
+              },
+            },
+          );
+        });
+
+        return () => removeMeasureListener?.();
+      });
+    }, page);
+
+    return () => ctx.revert();
   }, []);
 
   const prewarmLeadService = () => {
@@ -248,7 +438,7 @@ export default function LandingPage() {
   };
 
   return (
-    <main className="landing-page min-h-screen overflow-hidden bg-[#faf9f6] text-slate-950">
+    <main ref={pageRef} className="landing-page min-h-screen overflow-hidden bg-[#faf9f6] text-slate-950">
       <a
         href="https://wa.me/qr/GEGVWDDK4XMDP1"
         target="_blank"
@@ -290,25 +480,27 @@ export default function LandingPage() {
         </nav>
       </header>
 
-      <section className="landing-hero relative isolate">
+      {/* z-20 deixa o logo viajante por cima das seções seguintes */}
+      <section className="landing-hero relative isolate z-20">
         <div
           aria-hidden="true"
+          data-gsap-parallax="25"
           className="absolute -right-32 -top-28 -z-10 h-[32rem] w-[32rem] rounded-full bg-indigo-200/60 blur-3xl"
         />
-        <div className="landing-hero-content mx-auto flex max-w-7xl flex-col items-center gap-10 px-5 py-14 sm:gap-14 sm:px-8 sm:py-20 lg:py-24 xl:py-28">
-          <div className="flex min-w-0 flex-col items-center text-center">
-            <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-indigo-700">
+        <div className="landing-hero-content mx-auto flex max-w-7xl flex-col items-center gap-10 px-5 py-14 sm:gap-14 sm:px-8 sm:py-20 lg:flex-row lg:justify-between lg:py-24 xl:py-28">
+          <div className="flex min-w-0 flex-col items-center text-center lg:items-start lg:text-left">
+            <p data-gsap="hero-badge" className="mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-indigo-700">
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
               Seu talento merece uma vitrine
             </p>
-            <h1 className="landing-hero-title max-w-3xl text-4xl font-bold leading-[0.98] tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+            <h1 data-gsap="hero-title" className="landing-hero-title max-w-3xl text-4xl font-bold leading-[0.98] tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
               Seu negócio presencial,{" "}
               <span className="text-indigo-600">com estrutura digital.</span>
             </h1>
-            <p className="landing-hero-copy mt-7 max-w-xl text-base leading-7 text-slate-600 sm:text-lg">
-              Desenvolvemos ecossistemas digitais sob medida — de vitrines interativas a sites institucionais — para atrair clientes, automatizar atendimentos e transformar o seu negócio em uma estrutura de vendas 24 horas por dia.
+            <p data-gsap="hero-copy" className="landing-hero-copy mt-7 max-w-xl text-base leading-7 text-slate-600 sm:text-lg">
+              Desenvolvemos ecossistemas digitais sob medida — de vitrines interativas a sistemas operacionais — para atrair clientes, automatizar atendimentos e transformar o seu negócio em uma estrutura de vendas 24 horas por dia.
             </p>
-            <div className="landing-hero-actions mt-9 flex flex-col gap-3 sm:flex-row">
+            <div data-gsap="hero-actions" className="landing-hero-actions mt-9 flex flex-col gap-3 sm:flex-row">
               <button
                 type="button"
                 onClick={() => scrollToSection("planos")}
@@ -330,11 +522,26 @@ export default function LandingPage() {
                 Ver demonstração
               </a>
             </div>
-            <div className="landing-hero-proof mt-10 flex flex-col items-center gap-3 text-sm text-slate-600 sm:flex-row sm:flex-wrap sm:justify-center">
+            <div data-gsap="hero-proof" className="landing-hero-proof mt-10 flex flex-col items-center gap-3 text-sm text-slate-600 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
               <span><strong className="text-slate-950">✓</strong> Vitrine e captura 24/7</span>
               <span><strong className="text-slate-950">✓</strong> Design autoral e exclusivo</span>
               <span><strong className="text-slate-950">✓</strong> Estrutura pronta para converter</span>
             </div>
+          </div>
+
+          {/* O slot nunca se move: serve de referência para medir a viagem do logo até o celular. */}
+          <div data-hero-slot data-gsap="hero-visual" className="relative aspect-square w-52 shrink-0 sm:w-64 lg:w-[22rem] xl:w-[26rem]">
+            <div
+              aria-hidden="true"
+              data-hero-shadow
+              className="absolute inset-x-[22%] top-[80%] h-[7%] rounded-[50%] bg-[radial-gradient(closest-side,rgba(30,27,75,0.28),transparent)]"
+            />
+            <img
+              data-hero-box
+              src="./img/logo.svg"
+              alt=""
+              className="relative z-10 h-full w-full object-contain will-change-transform"
+            />
           </div>
 
         </div>
@@ -342,7 +549,7 @@ export default function LandingPage() {
 
       <section id="tudo-conectado" className="landing-fullscreen-section landing-connected-section scroll-mt-0 bg-white py-10 sm:py-12 lg:py-14">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <div data-gsap="stagger" className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">Tudo conectado</p>
             <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Uma vitrine, muitas possibilidades.</h2>
             <p className="mt-4 text-base leading-7 text-slate-600">
@@ -358,7 +565,7 @@ export default function LandingPage() {
 
       <section id="como-funciona" className="landing-fullscreen-section scroll-mt-0 py-16 sm:py-20 lg:py-16">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-10 px-5 text-center sm:px-8">
-          <div className="max-w-2xl">
+          <div data-gsap="stagger" className="max-w-2xl">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">Simples para começar</p>
             <h2 className="mt-3 max-w-xl text-3xl font-bold tracking-tight sm:text-4xl">Seu próximo passo profissional começa aqui.</h2>
             <p className="mt-5 max-w-xl leading-7 text-slate-600">
@@ -368,7 +575,7 @@ export default function LandingPage() {
               Quero conversar sobre meu perfil <span aria-hidden="true">→</span>
             </button>
           </div>
-          <ol className="grid w-full max-w-5xl gap-4 text-left md:grid-cols-3">
+          <ol data-gsap="stagger" className="grid w-full max-w-5xl gap-4 text-left md:grid-cols-3">
             {[
               ["01", "Preencha o formulario", "Encontre o formato que combina com o momento da sua carreira."],
               ["02", "Conte sua história", "Compartilhe seus links, sua bio e os trabalhos que quer destacar."],
@@ -389,14 +596,17 @@ export default function LandingPage() {
       <section className="relative isolate overflow-hidden bg-slate-950">
         <div
           aria-hidden="true"
+          data-gsap-parallax="30"
           className="pointer-events-none absolute -left-48 top-24 h-[36rem] w-[36rem] rounded-full bg-indigo-600/20 blur-[9rem]"
         />
         <div
           aria-hidden="true"
+          data-gsap-parallax="-20"
           className="pointer-events-none absolute -right-48 top-[42%] h-[40rem] w-[40rem] rounded-full bg-sky-500/15 blur-[10rem]"
         />
         <div
           aria-hidden="true"
+          data-gsap-parallax="15"
           className="pointer-events-none absolute left-1/3 bottom-[-18rem] h-[34rem] w-[34rem] rounded-full bg-violet-500/15 blur-[9rem]"
         />
         <div className="relative z-10 space-y-8">
@@ -412,7 +622,7 @@ export default function LandingPage() {
 
       <section id="contato" className="scroll-mt-24 py-16 sm:py-20">
         <div className="mx-auto grid max-w-7xl items-start gap-10 px-5 sm:px-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
-          <div className="max-w-2xl text-center lg:text-left">
+          <div data-gsap="stagger" data-gsap-from="left" className="max-w-2xl text-center lg:text-left">
             <img src="./img/logo.svg" alt="Horzone" className="contact-floating-logo mx-auto mb-6 h-24 w-24 object-contain" />
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">Vamos conversar</p>
             <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Sua próxima oportunidade pode começar com um link.</h2>
@@ -421,8 +631,8 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <form noValidate onSubmit={handleSubmit} onFocusCapture={prewarmLeadService} aria-busy={isSubmitting} className="w-full rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-950/5 sm:p-8">
-            <div className="grid gap-5 sm:grid-cols-2">
+          <form data-gsap="reveal" data-gsap-from="right" noValidate onSubmit={handleSubmit} onFocusCapture={prewarmLeadService} aria-busy={isSubmitting} className="w-full rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-950/5 sm:p-8">
+            <div data-gsap="stagger" className="grid gap-5 sm:grid-cols-2">
               <label className="text-sm font-semibold text-slate-700">
                 Seu nome
                 <input id="contact-name" required name="name" autoComplete="name" minLength={2} maxLength={100} aria-invalid={Boolean(formErrors.name)} aria-describedby={formErrors.name ? "contact-name-error" : undefined} onBlur={(event) => validateFieldOnBlur("name", event.currentTarget.value)} onChange={() => clearFieldError("name")} className={`mt-2 w-full rounded-xl border bg-[#faf9f6] px-4 py-3 text-base font-normal outline-none transition focus:ring-4 md:text-sm ${formErrors.name ? "border-red-500 focus:border-red-500 focus:ring-red-500/10" : "border-slate-300 focus:border-indigo-500 focus:ring-indigo-500/10"}`} placeholder="Como podemos te chamar?" />

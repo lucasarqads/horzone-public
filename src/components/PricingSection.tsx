@@ -1,5 +1,4 @@
 import { Check } from "lucide-react";
-import { motion } from "framer-motion";
 import styles from "./PricingSection.module.css";
 
 export const pricingPlans = [
@@ -65,30 +64,20 @@ type PricingSectionProps = {
 export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
   return (
     <section id="planos" className={styles.section} aria-labelledby="pricing-title">
-      <motion.div
-        className={styles.header}
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-      >
+      <div className={styles.header} data-gsap="stagger">
         <span className={styles.eyebrow}>INVESTIMENTO &amp; PLANOS</span>
         <h2 id="pricing-title">Escolha o ecossistema ideal para o seu momento</h2>
         <p>
           Desenvolvimento personalizado sob medida com infraestrutura,
           hospedagem e suporte contínuo para o seu negócio.
         </p>
-      </motion.div>
+      </div>
 
-      <div className={styles.grid}>
-        {pricingPlans.map((plan, index) => (
-          <motion.article
+      <div className={styles.grid} data-gsap="stagger" data-gsap-from="scale">
+        {pricingPlans.map((plan) => (
+          <article
             key={plan.name}
             className={`${styles.card} ${plan.featured ? styles.featured : ""}`}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.55, delay: index * 0.1, ease: "easeOut" }}
           >
             {plan.featured && <span className={styles.popular}>{plan.badge}</span>}
             <div className={styles.cardTop}>
@@ -107,7 +96,7 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
               </div>
             </div>
 
-            <ul className={styles.features}>
+            <ul className={styles.features} data-gsap="stagger">
               {plan.features.map((feature) => (
                 <li key={feature}>
                   <Check size={17} aria-hidden="true" />
@@ -123,11 +112,11 @@ export default function PricingSection({ onSelectPlan }: PricingSectionProps) {
             >
               {plan.cta}
             </button>
-          </motion.article>
+          </article>
         ))}
       </div>
 
-      <p className={styles.footnote}>
+      <p className={styles.footnote} data-gsap="reveal">
         Todos os planos incluem hospedagem gerenciada 24/7, certificado de
         segurança SSL e backups diários.
       </p>

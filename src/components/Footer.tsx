@@ -46,7 +46,7 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.content}>
-        <div className={styles.grid}>
+        <div className={styles.grid} data-gsap="stagger">
           <div className={styles.brandColumn}>
             <a href="/" className={styles.logoLink} aria-label="Horzone, página inicial">
               <img src="./img/logo.svg" alt="" className={styles.logo} />
@@ -89,10 +89,10 @@ export default function Footer() {
           <LinkColumn title="LEGAL" links={legalLinks} />
         </div>
 
-        <div className={styles.copyright}>
+        <div className={styles.copyright} data-gsap="reveal">
           <span>Termos de Uso · Versão 1.0</span>
         </div>
-        <p className={styles.companyDetails}>
+        <p className={styles.companyDetails} data-gsap="reveal">
           © 2026 Horzone LTDA · CNPJ 65.625.187/0001-64 · São Paulo · Todos os
           direitos reservados.
         </p>

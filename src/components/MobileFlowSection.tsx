@@ -126,12 +126,12 @@ export default function MobileFlowSection() {
     <div className={styles.section}>
       <div className={styles.glow} aria-hidden="true" />
       <div className={styles.content}>
-        <div className={styles.copy}>
+        <div className={styles.copy} data-gsap="stagger" data-gsap-from="left">
           <span className={styles.badge}><span className={styles.badgeDot} aria-hidden="true" />BioWeb | Vitrine Digital</span>
           <p className={styles.kicker}>Sua marca em um só lugar</p>
           <h2 className={styles.title}>Sua presença digital completa em um único link</h2>
           <p className={styles.subtitle}>Centralize seus links, portfólio, mídia kit e cupons com a sua identidade visual.</p>
-          <div className={styles.tabs} role="tablist" aria-label="Recursos da BioWeb">
+          <div className={styles.tabs} role="tablist" aria-label="Recursos da BioWeb" data-gsap="stagger">
             {flowKeys.map((key) => <button className={`${styles.tab} ${activeFlow === key ? styles.tabActive : ""}`} key={key} type="button" role="tab" aria-selected={activeFlow === key} onClick={() => selectFlow(key)}>{flows[key].label}</button>)}
           </div>
           <div className={styles.steps} aria-label={`Etapas de ${flow.label}`}>
@@ -142,13 +142,13 @@ export default function MobileFlowSection() {
 
         <div className={styles.simulatorArea}>
           <div className={`${styles.floatingNote} ${styles.noteBottom}`}>Sua presença digital com a sua identidade</div>
-          <div className={styles.phone} aria-label={`Simulação de perfil BioWeb: ${flow.label}`}>
+          <div className={styles.phone} data-hero-phone aria-label={`Simulação de perfil BioWeb: ${flow.label}`}>
             <div className={styles.leftControls} aria-hidden="true"><span className={styles.actionButton} /><span className={styles.volumeButton} /><span className={styles.volumeButton} /></div>
             <span className={styles.powerButton} aria-hidden="true" />
             <div className={styles.notch} aria-hidden="true"><span /></div>
             <div className={styles.screen}>
               <div className={styles.statusBar}><span>9:41</span><span>● )))</span></div>
-              <div className={styles.browserProfile}><div className={styles.profileTop}><strong>Seu perfil BioWeb</strong><span>Online</span></div><div className={styles.profileCard}><span className={styles.profileAvatar}>✳</span><strong>Seu nome criativo</strong><small>Criadora UGC · Moda · Beleza · Vlogs</small><div className={styles.socialIcons}><span>◎</span><span>◉</span><span>♪</span><span>↗</span></div></div></div>
+              <div className={styles.browserProfile}><div className={styles.profileTop}><strong>Seu perfil BioWeb</strong><span>Online</span></div><div className={styles.profileCard}><span className={styles.profileAvatar} data-hero-target><span data-hero-avatar-default>✳</span><img className={styles.avatarLogo} data-hero-avatar-logo src="./img/logo.svg" alt="" /><span className={styles.avatarHalo} data-hero-halo aria-hidden="true" /></span><strong>Seu nome criativo</strong><small>Criadora UGC · Moda · Beleza · Vlogs</small><div className={styles.socialIcons}><span>◎</span><span>◉</span><span>♪</span><span>↗</span></div></div></div>
               <div className={styles.chat}>
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div key={activeFlow} className={styles.flowCard} initial={{ opacity: 0, x: 18 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -18 }} transition={{ duration: 0.22, ease: "easeOut" }}>
@@ -158,6 +158,7 @@ export default function MobileFlowSection() {
                   </motion.div>
                 </AnimatePresence>
               </div>
+              <div className={styles.screenGlow} data-hero-glow aria-hidden="true" />
             </div>
           </div>
         </div>

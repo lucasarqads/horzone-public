@@ -675,3 +675,8 @@ a {
     transition-delay: 0ms !important;
   }
 }
+
+/* GSAP controla transform/opacity enquanto anima; o transition do CSS fica pausado. */
+.gsap-animating {
+  transition: none !important;
+}

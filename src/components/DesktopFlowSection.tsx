@@ -102,12 +102,12 @@ export default function DesktopFlowSection() {
     <section className={styles.section} aria-labelledby="desktop-flow-title">
       <div className={styles.sectionGlow} aria-hidden="true" />
       <div className={styles.layout}>
-        <div className={styles.controls}>
+        <div className={styles.controls} data-gsap="stagger" data-gsap-from="left">
           <span className={styles.badge}><span className={styles.badgeDot} aria-hidden="true" />Horzone Web | Sites &amp; Sistemas</span>
           <p className={styles.kicker}>Experiências que geram negócio</p>
           <h2 id="desktop-flow-title">Sites institucionais projetados para atrair e converter clientes</h2>
           <p className={styles.subtitle}>Transforme visitantes em oportunidades reais com interfaces fluidas e formulários inteligentes.</p>
-          <div className={styles.tabs} role="tablist" aria-label="Etapas do site institucional">
+          <div className={styles.tabs} role="tablist" aria-label="Etapas do site institucional" data-gsap="stagger">
             {flowKeys.map((key) => <button className={`${styles.tab} ${activeFlow === key ? styles.tabActive : ""}`} key={key} type="button" role="tab" aria-selected={activeFlow === key} onClick={() => selectFlow(key)}>{flows[key].label}</button>)}
           </div>
           <p className={styles.flowIntro}>{flow.intro}</p>
@@ -117,7 +117,7 @@ export default function DesktopFlowSection() {
           <a className={styles.cta} href="#contato">Desenvolver Meu Site <span aria-hidden="true">↗</span></a>
         </div>
 
-        <div className={styles.browserWrap}>
+        <div className={styles.browserWrap} data-gsap="reveal" data-gsap-from="right">
           <div className={styles.browser}>
             <div className={styles.browserBar}><div className={styles.windowButtons} aria-hidden="true"><span className={styles.close} /><span className={styles.minimize} /><span className={styles.maximize} /></div><div className={styles.addressBar}><span className={styles.lock} aria-hidden="true">⌁</span>https://horzone.com.br/sua-empresa</div><span className={styles.browserMenu} aria-hidden="true">•••</span></div>
             <div className={styles.browserContent}>
@@ -130,7 +130,7 @@ export default function DesktopFlowSection() {
               </AnimatePresence>
             </div>
           </div>
-          <div className={styles.browserBadge}>✓ Lead capturado e notificado no seu CRM em tempo real</div>
+          <div className={styles.browserBadge} data-gsap="reveal">✓ Lead capturado e notificado no seu CRM em tempo real</div>
           <div className={styles.browserShadow} aria-hidden="true" />
         </div>
       </div>

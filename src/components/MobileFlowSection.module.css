@@ -283,6 +283,7 @@
 }
 
 .screen {
+  position: relative;
   display: flex;
   flex-direction: column;
   min-height: 37rem;
@@ -536,6 +537,10 @@
     flex: 1;
     padding-inline: 0.35rem;
     font-size: 0.7rem;
+  }
+
+  .steps {
+    display: none;
   }
 
   .phone {
@@ -1031,6 +1036,38 @@
   background: linear-gradient(135deg, #818cf8, #c084fc);
   box-shadow: 0 0.25rem 0.7rem rgba(99, 102, 241, 0.25);
   font-size: 1rem;
+  position: relative;
+}
+
+/* Estados finais da viagem do logo do hero (animados pelo GSAP na LandingPage). */
+.avatarLogo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0.12rem;
+  border-radius: 50%;
+  background: #fff;
+  object-fit: contain;
+  opacity: 0;
+}
+
+.avatarHalo {
+  position: absolute;
+  inset: -0.2rem;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.95), 0 0 1.4rem 0.4rem rgba(165, 180, 252, 0.95), 0 0 0 4px #6366f1;
+}
+
+.screenGlow {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(60% 28% at 50% 17%, rgba(199, 210, 254, 0.75), rgba(199, 210, 254, 0.2) 55%, transparent 80%);
 }
 
 .profileCard strong {
