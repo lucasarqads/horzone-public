@@ -608,23 +608,9 @@
     padding: 0.4rem 0.55rem;
   }
 
-  .siteHero {
-    gap: 0.75rem;
-    padding-block: 1.25rem;
-  }
-
-  .siteHero > div:first-child {
-    max-width: 62%;
-  }
-
-  .heroDashboard {
-    width: 36%;
-    min-height: 6rem;
-    padding: 0.45rem;
-  }
-
-  .heroDashboard div {
-    height: 1.7rem;
+  /* No celular a lista 1-4 sai: as abas e o mockup já contam a história. */
+  .steps {
+    display: none;
   }
 
   .fields {
@@ -971,6 +957,88 @@
   box-shadow: 0 0.9rem 1.8rem rgba(30, 27, 75, 0.2);
   font-size: 0.58rem;
   font-weight: 700;
+}
+
+/* Enquadramento do mockup no celular. Fica no fim do arquivo para vencer
+   as regras base do mockup, que são declaradas depois da media query acima. */
+@media (max-width: 38rem) {
+  .siteView,
+  .qualificationView,
+  .confirmationView {
+    min-height: 0;
+    padding: 1rem;
+  }
+
+  .browserContent {
+    min-height: 0;
+  }
+
+  .siteHero {
+    gap: 0.75rem;
+    padding-block: 1.1rem;
+  }
+
+  .siteHero > div:first-child {
+    flex: 1 1 0;
+    max-width: none;
+  }
+
+  .siteHero h3 {
+    font-size: 1.05rem;
+    letter-spacing: -0.04em;
+  }
+
+  .siteHero p {
+    margin-block: 0.45rem 0.75rem;
+    font-size: 0.58rem;
+  }
+
+  .heroDashboard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    flex: 0 0 30%;
+    width: 30%;
+    min-width: 0;
+    min-height: 0;
+    gap: 0.25rem;
+    padding: 0.4rem;
+  }
+
+  .heroDashboard div {
+    height: 1.2rem;
+  }
+
+  .heroDashboard div:first-child {
+    height: 0.9rem;
+  }
+
+  .heroDashboard strong,
+  .heroDashboard small {
+    grid-column: span 2;
+  }
+
+  .heroDashboard strong {
+    font-size: 0.85rem;
+  }
+
+  .siteProof {
+    flex-wrap: wrap;
+    gap: 0.35rem 0.8rem;
+  }
+
+  .siteProof > span {
+    flex-basis: 100%;
+  }
+
+  /* O selo sai de cima do conteúdo e fica abaixo do navegador. */
+  .browserBadge {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0.9rem auto 0;
+    text-align: center;
+  }
 }
 
 @media (min-width: 64rem) and (max-height: 50rem) {
