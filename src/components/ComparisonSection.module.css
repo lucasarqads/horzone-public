@@ -13,9 +13,8 @@
   top: -18rem;
   right: 12%;
   border-radius: 50%;
-  background: rgba(99, 102, 241, 0.18);
+  background: radial-gradient(closest-side, rgba(99, 102, 241, 0.18), transparent);
   content: "";
-  filter: blur(6rem);
   pointer-events: none;
 }
 

@@ -306,6 +306,9 @@ export default function LandingPage() {
           });
         });
 
+        // Parallax com scrub fica só no desktop: no celular custa frames no scroll.
+        if (!window.matchMedia("(min-width: 768px)").matches) return () => removeMeasureListener?.();
+
         gsap.utils.toArray<HTMLElement>("[data-gsap-parallax]").forEach((element) => {
           const speed = Number(element.dataset.gsapParallax) || 20;
           gsap.fromTo(
@@ -456,7 +459,7 @@ export default function LandingPage() {
         </svg>
         WhatsApp
       </a>
-      <header className="sticky top-0 z-30 border-b border-slate-200/70 bg-[#faf9f6]/90 backdrop-blur-xl">
+      <header className="sticky top-0 z-30 border-b border-slate-200/70 bg-[#faf9f6]/95 md:bg-[#faf9f6]/90 md:backdrop-blur-xl">
         <nav
           aria-label="Navegação principal"
           className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8"
@@ -485,7 +488,7 @@ export default function LandingPage() {
         <div
           aria-hidden="true"
           data-gsap-parallax="25"
-          className="absolute -right-32 -top-28 -z-10 h-[32rem] w-[32rem] rounded-full bg-indigo-200/60 blur-3xl"
+          className="absolute -right-32 -top-28 -z-10 h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(closest-side,rgba(199,210,254,0.6),transparent)]"
         />
         <div className="landing-hero-content mx-auto flex max-w-7xl flex-col items-center gap-10 px-5 py-14 sm:gap-14 sm:px-8 sm:py-20 lg:flex-row lg:justify-between lg:py-24 xl:py-28">
           <div className="flex min-w-0 flex-col items-center text-center lg:items-start lg:text-left">
@@ -597,17 +600,17 @@ export default function LandingPage() {
         <div
           aria-hidden="true"
           data-gsap-parallax="30"
-          className="pointer-events-none absolute -left-48 top-24 h-[36rem] w-[36rem] rounded-full bg-indigo-600/20 blur-[9rem]"
+          className="pointer-events-none absolute -left-48 top-24 h-[36rem] w-[36rem] rounded-full bg-[radial-gradient(closest-side,rgba(79,70,229,0.2),transparent)]"
         />
         <div
           aria-hidden="true"
           data-gsap-parallax="-20"
-          className="pointer-events-none absolute -right-48 top-[42%] h-[40rem] w-[40rem] rounded-full bg-sky-500/15 blur-[10rem]"
+          className="pointer-events-none absolute -right-48 top-[42%] h-[40rem] w-[40rem] rounded-full bg-[radial-gradient(closest-side,rgba(14,165,233,0.15),transparent)]"
         />
         <div
           aria-hidden="true"
           data-gsap-parallax="15"
-          className="pointer-events-none absolute left-1/3 bottom-[-18rem] h-[34rem] w-[34rem] rounded-full bg-violet-500/15 blur-[9rem]"
+          className="pointer-events-none absolute left-1/3 bottom-[-18rem] h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(closest-side,rgba(139,92,246,0.15),transparent)]"
         />
         <div className="relative z-10 space-y-8">
           <ComparisonSection />
