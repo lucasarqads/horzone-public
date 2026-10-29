@@ -468,7 +468,7 @@ export default function LandingPage() {
   return (
     <main ref={pageRef} className="landing-page min-h-screen bg-[#faf9f6] text-slate-950">
       <a
-        href="https://wa.me/qr/GEGVWDDK4XMDP1"
+        href="https://wa.me/5511913340707"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Falar com a Horzone pelo WhatsApp"

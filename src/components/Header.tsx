@@ -29,7 +29,7 @@ export default function Header({ audioMuted, topVideoRef, toggleAudio }: HeaderP
               <img src={`./img/${icon}`} alt="" width="20" height="20" />
             </a>
           ))}
-          <a href="https://wa.me/qr/GEGVWDDK4XMDP1" title="Agendar" target="_blank" rel="noopener noreferrer" className="flex min-w-24 items-center justify-center rounded-full border border-blue-500 bg-blue-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg transition-transform active:scale-95">Contato</a>
+          <a href="/#contato" title="Ir para o formulário de contato" className="flex min-w-24 items-center justify-center rounded-full border border-blue-500 bg-blue-500 px-5 py-3.5 text-sm font-bold text-white shadow-lg transition-transform active:scale-95">Contato</a>
         </nav>
       </Reveal>
       <Reveal>
