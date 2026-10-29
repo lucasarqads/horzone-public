@@ -1,6 +1,8 @@
 .footer {
   color: #cbd5e1;
   background: #020617;
+  /* Conteúdo deslocado pelo reveal não pode vazar abaixo do rodapé. */
+  overflow: hidden;
 }
 
 .content {

@@ -114,7 +114,7 @@ export default function DesktopFlowSection() {
           <div className={styles.steps} aria-label={`Etapas de ${flow.label}`}>
             {flow.steps.map((step, index) => <button className={`${styles.step} ${activeStep === index ? styles.stepActive : ""}`} key={step} type="button" onClick={() => setActiveStep(index)}><span className={styles.stepNumber}>{index + 1}</span><span>{step}</span></button>)}
           </div>
-          <a className={styles.cta} href="#contato">Desenvolver Meu Site <span aria-hidden="true">↗</span></a>
+          <a className={styles.cta} href="/site.html">Desenvolver Meu Site <span aria-hidden="true">↗</span></a>
         </div>
 
         <div className={styles.browserWrap} data-gsap="reveal" data-gsap-from="right">

@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Sites de alta conversão e sistemas sob medida da Horzone: capture, qualifique e atenda clientes com a sua operação conectada.">
+<title>Sites e Sistemas Horzone</title>
+<link rel="icon" type="image/svg+xml" href="./img/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Página de vendas de sites e sistemas em AIDA: Atenção (hero + viagem do Alex até o site) → Interesse → Desejo (2) → Benefícios → Planos → Ação. */
+:root {
+  color-scheme: light;
+  --bg: #f5f4fd;
+  --lilac: #e9e6fd;
+  --mist: #dfe3fb;
+  --ink: #1f1d3a;
+  --muted: #646283;
+  --accent: #5b54e8;
+  --accent-2: #8c6cf0;
+  --accent-deep: #433cc4;
+  --line: rgba(31, 29, 58, .12);
+  --card: #ffffff;
+  --glow: 196, 186, 255;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  --char-ratio: 377 / 1000;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); overflow-x: hidden; }
+a { color: inherit; }
+
+.band { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 32px; }
+.wrap { max-width: 1200px; margin: 0 auto; }
+
+/* ---------- Topo ---------- */
+.topbar { position: fixed; inset: 0 0 auto; z-index: 20; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background: rgba(245, 244, 253, .75); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 60px; }
+.brand { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; text-decoration: none; font-size: .95rem; }
+.brand img { width: 28px; height: 28px; }
+
+/* ---------- Botões ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px; padding: 14px 26px; font: 600 .95rem/1 var(--body); text-decoration: none; transition: transform .2s, background-color .2s, box-shadow .2s; cursor: pointer; }
+.btn:hover { transform: translateY(-2px); }
+.btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.btn--primary { background: var(--accent); color: #fff; box-shadow: 0 12px 28px -10px rgba(91, 84, 232, .7); }
+.btn--primary:hover { background: var(--accent-deep); }
+.btn--ghost { border: 1px solid var(--line); background: rgba(255, 255, 255, .7); }
+.btn--ghost:hover { background: #fff; }
+.btn--sm { padding: 10px 18px; font-size: .85rem; }
+
+/* ---------- Hero ---------- */
+.hero { background: linear-gradient(180deg, var(--lilac), var(--bg)); padding-block: 132px 96px; position: relative; z-index: 3; }
+.eyebrow { margin: 0; font-size: .78rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.02; margin: 0; text-wrap: balance; letter-spacing: -.02em; }
+h1 { font-size: clamp(2.5rem, 5.6vw, 4.4rem); }
+h2 { font-size: clamp(2.1rem, 4.2vw, 3.3rem); }
+.copy { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.copy p, .lead { margin: 0; color: var(--muted); font-size: 1.08rem; line-height: 1.6; max-width: 42ch; }
+.hint { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); font-size: .9rem; margin-top: 8px; }
+.hint span { width: 22px; height: 34px; border: 2px solid currentColor; border-radius: 12px; position: relative; opacity: .7; }
+.hint span::after { content: ""; position: absolute; left: 50%; top: 6px; width: 4px; height: 7px; margin-left: -2px; border-radius: 2px; background: currentColor; animation: wheel 1.6s ease-in-out infinite; }
+@keyframes wheel { 0% { transform: translateY(0); opacity: 1; } 80% { transform: translateY(10px); opacity: 0; } 100% { opacity: 0; } }
+
+/* lugar do personagem no hero (não se move; serve de referência para medir) */
+.box-slot { justify-self: center; height: min(62vh, 520px); max-width: 100%; aspect-ratio: var(--char-ratio); position: relative; }
+.box { width: 100%; height: 100%; will-change: transform; position: relative; z-index: 5; }
+.box img { display: block; width: 100%; height: 100%; }
+.floor-shadow { position: absolute; left: -10%; right: -10%; bottom: -2%; height: 6%; border-radius: 50%; background: radial-gradient(closest-side, rgba(40, 30, 90, .28), transparent); }
+
+/* ---------- Seção do site ---------- */
+.app { padding-block: 120px 140px; background: linear-gradient(180deg, var(--bg), var(--mist)); position: relative; z-index: 1; }
+.app .inner { grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); }
+
+/* Monitor desenhado em CSS */
+.monitor { width: 100%; max-width: 760px; justify-self: center; filter: drop-shadow(0 34px 44px rgba(40, 30, 110, .22)); }
+.bezel { background: #17161f; border-radius: 18px; padding: 1.3%; position: relative; }
+.bezel::before { content: ""; position: absolute; top: .45%; left: 50%; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: #34323f; }
+.screen { position: relative; aspect-ratio: 16 / 10; border-radius: 8px; overflow: hidden; background: #fff; container-type: inline-size; }
+.chin { height: 0; }
+.stand { width: 18%; aspect-ratio: 2.2 / 1; margin: 0 auto; background: linear-gradient(180deg, #c9c8d6, #e6e5ef 60%, #d4d3e0); clip-path: polygon(14% 0, 86% 0, 100% 100%, 0 100%); }
+.foot { width: 32%; height: 10px; margin: 0 auto; border-radius: 4px 4px 10px 10px; background: linear-gradient(180deg, #e9e8f2, #c4c3d2); }
+
+.screen-glow {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0; z-index: 4;
+  background: radial-gradient(40% 55% at 72% 55%, rgba(var(--glow), .75), rgba(var(--glow), .2) 55%, transparent 80%);
+  mix-blend-mode: multiply;
+}
+
+/* ---------- Site empresarial (tudo em em: 1em = 16px numa tela de 1280px) ---------- */
+.site { position: absolute; inset: 0; font-size: calc(100cqw / 80); font-family: var(--body); color: #1f1d3a; background: linear-gradient(180deg, #f7f6ff, #eeecff); display: flex; flex-direction: column; }
+.site * { box-sizing: border-box; }
+.browser { flex: none; height: 2.6em; background: #ecebf4; border-bottom: 1px solid #dcdbe8; display: flex; align-items: center; gap: .5em; padding: 0 1em; }
+.browser i { width: .75em; height: .75em; border-radius: 50%; background: #d6d4e2; }
+.browser i:nth-child(1) { background: #f1867a; } .browser i:nth-child(2) { background: #f3c45c; } .browser i:nth-child(3) { background: #6fd08b; }
+.url { margin-left: 1.5em; height: 1.6em; flex: 0 1 26em; border-radius: .8em; background: #fff; color: #7a7896; font-size: .8em; display: flex; align-items: center; padding: 0 1em; gap: .5em; }
+.url::before { content: ""; width: .7em; height: .8em; border-radius: .2em; border: .15em solid #a4a2bd; border-top-width: .35em; }
+
+.nav { flex: none; display: flex; align-items: center; gap: 2.4em; padding: 1.3em 3.5em; }
+.logo { display: flex; align-items: center; gap: .55em; font-family: var(--display); font-weight: 700; font-size: 1.45em; letter-spacing: -.02em; }
+.logo b { width: 1.35em; height: 1.35em; border-radius: .4em; background: linear-gradient(140deg, #6e64f2, #9a74f4); display: grid; place-items: center; }
+.logo b::after { content: ""; width: .55em; height: .55em; border: .12em solid #fff; border-radius: .12em; transform: rotate(45deg); }
+.links { display: flex; gap: 2em; margin-left: auto; color: #55537a; font-weight: 500; }
+.nav .cta { padding: .7em 1.3em; border-radius: 2em; background: #1f1d3a; color: #fff; font-weight: 600; font-size: .95em; }
+
+.s-hero { flex: 1; display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; padding: 0 3.5em; min-height: 0; }
+.s-copy { display: flex; flex-direction: column; gap: 1.2em; }
+.pill { align-self: flex-start; display: inline-flex; align-items: center; gap: .5em; padding: .45em .9em; border-radius: 2em; background: #fff; color: #5b54e8; font-weight: 600; font-size: .85em; box-shadow: 0 .3em 1em rgba(70, 60, 160, .08); }
+.pill::before { content: ""; width: .5em; height: .5em; border-radius: 50%; background: #4fc786; box-shadow: 0 0 0 .25em rgba(79, 199, 134, .2); }
+.s-title { margin: 0; font-family: var(--display); font-weight: 700; font-size: 3.6em; line-height: 1; letter-spacing: -.03em; }
+.s-title em { font-style: normal; background: linear-gradient(90deg, #5b54e8, #9a6cf0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.s-lead { margin: 0; color: #646283; font-size: 1.1em; line-height: 1.55; max-width: 30em; }
+.s-btns { display: flex; gap: .8em; }
+.s-btns span { padding: .85em 1.5em; border-radius: 2em; font-weight: 600; }
+.s-btns .p { background: linear-gradient(135deg, #5b54e8, #8463ef); color: #fff; box-shadow: 0 .6em 1.4em -.5em rgba(91, 84, 232, .7); }
+.s-btns .g { background: #fff; color: #1f1d3a; border: 1px solid #dcdaf0; }
+.stats { display: flex; gap: 2.4em; margin-top: .6em; }
+.stats div { display: flex; flex-direction: column; gap: .15em; }
+.stats strong { font-family: var(--display); font-size: 1.7em; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.stats small { color: #7a7896; font-size: .85em; }
+
+.s-visual { position: relative; height: 100%; }
+.blob { position: absolute; left: 50%; top: 52%; width: 24em; height: 24em; translate: -50% -50%; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #c9c1ff, #8d7cf3 60%, #6c5fe9); }
+.blob::after { content: ""; position: absolute; inset: -1.6em; border-radius: 50%; border: 1px dashed rgba(91, 84, 232, .35); }
+/* destino do personagem dentro do site */
+.target { position: absolute; left: 43%; bottom: 3%; height: 92%; aspect-ratio: var(--char-ratio); translate: -50% 0; }
+.target img { display: block; width: 100%; height: 100%; opacity: 0; }
+.halo { position: absolute; left: 50%; top: 52%; width: 24em; height: 24em; translate: -50% -50%; border-radius: 50%; opacity: 0; box-shadow: 0 0 0 .4em rgba(255, 255, 255, .9), 0 0 3em 1em rgba(var(--glow), 1); }
+.track { position: absolute; right: -.5em; top: 24%; width: 15em; padding: 1em; border-radius: 1em; background: rgba(255, 255, 255, .92); box-shadow: 0 1em 2.4em -1em rgba(60, 50, 150, .35); display: flex; flex-direction: column; gap: .5em; z-index: 2; }
+.track small { color: #7a7896; font-size: .78em; }
+.track strong { font-size: .95em; }
+.bar { height: .45em; border-radius: 1em; background: #e6e4f7; overflow: hidden; }
+.bar::before { content: ""; display: block; width: 70%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #5b54e8, #9a6cf0); }
+.chip { position: absolute; left: 0; bottom: 14%; padding: .7em 1em; border-radius: .9em; background: #fff; box-shadow: 0 1em 2.4em -1em rgba(60, 50, 150, .35); display: flex; align-items: center; gap: .6em; font-size: .9em; font-weight: 600; z-index: 2; }
+.chip b { width: 1.8em; height: 1.8em; border-radius: .6em; background: #e5f7ee; display: grid; place-items: center; color: #2f9e62; font-size: .9em; }
+
+.s-cards { flex: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2em; padding: 0 3.5em 2.2em; }
+.s-cards div { background: #fff; border-radius: 1em; padding: 1.1em 1.2em; display: flex; flex-direction: column; gap: .3em; box-shadow: 0 .4em 1.4em rgba(60, 50, 150, .07); }
+.s-cards strong { font-size: 1em; }
+.s-cards small { color: #7a7896; font-size: .82em; line-height: 1.4; }
+
+/* ---------- Seções de venda ---------- */
+.section { padding-block: 112px; }
+.section__head { display: flex; flex-direction: column; gap: 16px; max-width: 700px; margin-bottom: 56px; }
+.section__head--center { margin-inline: auto; text-align: center; align-items: center; }
+
+/* Interesse: o site que não trabalha */
+.interest { background: var(--mist); }
+.pains { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.pain { background: rgba(255, 255, 255, .65); border: 1px solid var(--line); border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 10px; }
+.pain__n { font-family: var(--display); font-weight: 700; font-size: 2.2rem; color: var(--accent); line-height: 1; }
+.pain h3 { font-family: var(--body); font-weight: 600; font-size: 1.1rem; line-height: 1.3; letter-spacing: 0; }
+.pain p { margin: 0; color: var(--muted); line-height: 1.6; }
+.turn { margin: 56px auto 0; max-width: 780px; text-align: center; font-family: var(--display); font-weight: 700; font-size: clamp(1.6rem, 3.2vw, 2.3rem); line-height: 1.15; letter-spacing: -.02em; text-wrap: balance; }
+.turn em { font-style: normal; color: var(--accent); }
+
+/* Desejo 1: um dia com a operação conectada */
+.day { background: linear-gradient(180deg, var(--mist), var(--lilac)); }
+.day .inner { align-items: start; }
+.timeline { list-style: none; margin: 0; padding: 0; position: relative; display: flex; flex-direction: column; gap: 14px; }
+.timeline::before { content: ""; position: absolute; left: 39px; top: 24px; bottom: 24px; width: 2px; background: linear-gradient(var(--accent), rgba(91, 84, 232, .15)); }
+.moment { position: relative; display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 16px; align-items: start; background: var(--card); border-radius: 22px; padding: 20px 22px 20px 0; box-shadow: 0 18px 40px -28px rgba(40, 30, 110, .45); }
+.moment time { justify-self: center; position: relative; z-index: 1; background: var(--accent); color: #fff; font-weight: 700; font-size: .78rem; border-radius: 999px; padding: 6px 10px; }
+.moment h3 { font-family: var(--body); font-size: 1.02rem; font-weight: 600; line-height: 1.35; letter-spacing: 0; }
+.moment p { margin: 6px 0 0; color: var(--muted); line-height: 1.55; font-size: .95rem; }
+.moment--end { background: var(--ink); color: #fff; }
+.moment--end p { color: rgba(255, 255, 255, .72); }
+.moment--end time { background: #fff; color: var(--ink); }
+
+/* Desejo 2: antes e depois */
+.compare { background: var(--lilac); }
+.versus { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: stretch; }
+.side { border-radius: 28px; padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+.side--before { background: #efeef3; color: #5a5968; }
+.side--after { background: var(--card); box-shadow: 0 30px 60px -36px rgba(67, 60, 196, .55); outline: 2px solid rgba(91, 84, 232, .35); }
+.side__tag { align-self: flex-start; font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; background: rgba(0, 0, 0, .06); }
+.side--after .side__tag { background: var(--lilac); color: var(--accent); }
+.mock { border-radius: 22px; padding: 20px; min-height: 250px; display: flex; flex-direction: column; gap: 10px; }
+/* planilha bagunçada */
+.mock--sheet { background: #e2e1e8; }
+.sheet { display: grid; grid-template-columns: 1.4fr 1fr 1fr .8fr; gap: 2px; background: #c9c7d3; border-radius: 8px; overflow: hidden; font-size: .74rem; }
+.sheet span { background: #fff; padding: 7px 8px; color: #8a8894; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sheet .h { background: #d8d6e0; color: #5a5968; font-weight: 700; }
+.sheet .x { background: #fbe3e1; color: #b4544b; }
+.msgs { display: flex; flex-direction: column; gap: 6px; margin-top: auto; }
+.msgs span { align-self: flex-start; background: #fff; border-radius: 12px 12px 12px 4px; padding: 7px 11px; font-size: .78rem; color: #6f6d7a; }
+.msgs span:nth-child(2) { align-self: flex-end; border-radius: 12px 12px 4px 12px; }
+/* painel organizado */
+.mock--panel { background: linear-gradient(160deg, #f1efff, #e2e7ff); }
+.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.kpis div { background: #fff; border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 2px; }
+.kpis small { color: var(--muted); font-size: .7rem; }
+.kpis strong { font-family: var(--display); font-size: 1.15rem; }
+.cols { display: flex; align-items: flex-end; gap: 6px; height: 64px; padding: 10px; background: #fff; border-radius: 12px; }
+.cols i { flex: 1; border-radius: 4px 4px 2px 2px; background: linear-gradient(180deg, var(--accent-2), var(--accent)); }
+.feed { display: flex; flex-direction: column; gap: 6px; }
+.feed span { display: flex; align-items: center; gap: 8px; background: #fff; border-radius: 10px; padding: 8px 10px; font-size: .78rem; font-weight: 600; }
+.feed span::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #4fc786; flex: none; }
+.checks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; line-height: 1.45; }
+.checks li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; }
+.checks svg { width: 20px; height: 20px; margin-top: 1px; }
+.side--before .checks svg { color: #a3a1ad; }
+.side--after .checks svg { color: var(--accent); }
+
+/* Benefícios */
+.benefits { background: var(--bg); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.benefit { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 12px; transition: transform .25s, box-shadow .25s; }
+.benefit:hover { transform: translateY(-4px); box-shadow: 0 24px 48px -30px rgba(40, 30, 110, .5); }
+.benefit__icon { width: 48px; height: 48px; border-radius: 16px; display: grid; place-items: center; background: var(--lilac); color: var(--accent); }
+.benefit__icon svg { width: 24px; height: 24px; }
+.benefit h3 { font-family: var(--body); font-weight: 600; font-size: 1.08rem; line-height: 1.3; letter-spacing: 0; }
+.benefit p { margin: 0; color: var(--muted); line-height: 1.6; font-size: .96rem; }
+
+/* Planos */
+.plans { background: linear-gradient(180deg, var(--bg), var(--mist)); }
+.plan-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; max-width: 900px; margin-inline: auto; align-items: stretch; }
+.plan { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 28px; padding: 32px 28px; display: flex; flex-direction: column; gap: 20px; }
+.plan--featured { background: var(--ink); color: #fff; border-color: transparent; box-shadow: 0 40px 70px -40px rgba(31, 29, 58, .9); }
+.plan__flag { position: absolute; top: -14px; left: 50%; translate: -50% 0; white-space: nowrap; background: var(--accent); color: #fff; font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 7px 14px; border-radius: 999px; }
+.plan__tag { margin: 0 0 6px; font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.plan--featured .plan__tag { color: #b9b3ff; }
+.plan__name { font-size: 1.9rem; }
+.plan__who { margin: 6px 0 0; color: var(--muted); line-height: 1.5; font-size: .95rem; }
+.plan--featured .plan__who { color: rgba(255, 255, 255, .7); }
+.price { border-block: 1px solid var(--line); padding-block: 18px; display: flex; flex-direction: column; gap: 4px; }
+.plan--featured .price { border-color: rgba(255, 255, 255, .15); }
+.price small { font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.plan--featured .price small, .plan--featured .price span { color: rgba(255, 255, 255, .65); }
+.price strong { font-size: 1.7rem; font-weight: 700; }
+.price span { color: var(--muted); font-size: .9rem; }
+.price em { font-style: normal; font-weight: 600; margin-top: 8px; }
+.plan .checks { flex: 1; font-size: .95rem; }
+.plan--featured .checks svg { color: #b9b3ff; }
+.plan .btn { width: 100%; }
+.plans__note { margin: 32px auto 0; text-align: center; color: var(--muted); max-width: 60ch; line-height: 1.6; }
+
+/* Ação */
+.action { padding-block: 120px; background: radial-gradient(120% 90% at 50% 0%, #8c6cf0, var(--accent-deep) 55%, var(--ink)); color: #fff; text-align: center; overflow: hidden; }
+.action .wrap { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.action__avatar { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; object-position: 50% 4%; background: var(--lilac); box-shadow: 0 0 0 4px rgba(255, 255, 255, .9), 0 0 40px 10px rgba(var(--glow), .6); }
+.action h2 { max-width: 18ch; }
+.action p { margin: 0; max-width: 52ch; line-height: 1.6; color: rgba(255, 255, 255, .8); font-size: 1.08rem; }
+.action__buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px; }
+.action .btn--primary { background: #fff; color: var(--accent-deep); box-shadow: 0 16px 40px -14px rgba(0, 0, 0, .5); }
+.action .btn--primary:hover { background: var(--lilac); }
+.action .btn--ghost { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .4); }
+.action .btn--ghost:hover { background: rgba(255, 255, 255, .1); }
+.action__steps { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 28px; color: rgba(255, 255, 255, .75); font-size: .92rem; }
+.action__steps b { color: #fff; }
+
+.footer { padding-block: 28px; background: var(--ink); color: rgba(255, 255, 255, .6); font-size: .82rem; text-align: center; }
+.footer a { color: #fff; }
+
+@media (max-width: 900px) {
+  .pains, .grid-3 { grid-template-columns: 1fr; }
+  .plan-grid { grid-template-columns: 1fr; gap: 32px; max-width: 480px; }
+  .versus { grid-template-columns: 1fr; }
+}
+@media (max-width: 860px) {
+  .inner, .app .inner { grid-template-columns: 1fr; }
+  .hero { padding-block: 104px 64px; }
+  .box-slot { height: min(48vh, 400px); }
+  .app { padding-block: 72px 96px; }
+  .bezel { border-radius: 12px; }
+  .section, .action { padding-block: 80px; }
+  .section__head { margin-bottom: 40px; }
+  .side { padding: 22px; }
+  .topbar .btn--sm { padding: 9px 14px; }
+}
+</style>
+</head>
+<body style="margin:0">
+
+<header class="topbar band">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="./img/logo.svg" alt="">Horzone</a>
+    <a class="btn btn--primary btn--sm" href="#planos">Quero meu site</a>
+  </div>
+</header>
+
+<!-- A · Atenção -->
+<section class="hero band">
+  <div class="inner">
+    <div class="copy">
+      <p class="eyebrow">Logística &amp; Entregas</p>
+      <h1>Sua encomenda, do estoque direto para a tela.</h1>
+      <p>Role a página e acompanhe o Alex levando a caixa até o site.</p>
+      <div class="hint"><span></span> Role para baixo</div>
+    </div>
+    <div class="box-slot" id="slot">
+      <div class="floor-shadow" id="floorShadow"></div>
+      <div class="box" id="box"><img src="./img/site/alex.webp" alt="Alex de moletom cinza segurando uma caixa de papelão"></div>
+    </div>
+  </div>
+</section>
+
+<section class="app band" id="app">
+  <div class="inner">
+    <div class="copy">
+      <p class="eyebrow">No site</p>
+      <h2>Do depósito para o seu navegador.</h2>
+      <p>O Alex entra no site da Fluxa e vira o rosto do atendimento, pronto para acompanhar cada pedido.</p>
+    </div>
+
+    <div class="monitor" id="monitor">
+      <div class="bezel">
+        <div class="screen">
+          <div class="site" aria-label="Site da Fluxa Logística">
+            <div class="browser"><i></i><i></i><i></i><span class="url">fluxa.com.br</span></div>
+            <div class="nav">
+              <span class="logo"><b></b>Fluxa</span>
+              <span class="links"><span>Soluções</span><span>Rastreio</span><span>Para empresas</span><span>Sobre</span></span>
+              <span class="cta">Fale com vendas</span>
+            </div>
+            <div class="s-hero">
+              <div class="s-copy">
+                <span class="pill">Entregas B2B em até 24h</span>
+                <p class="s-title">Entregas que chegam <em>no prazo</em>, do jeito certo.</p>
+                <p class="s-lead">Coleta, armazenagem e entrega para a sua empresa, com rastreio em tempo real do galpão até o cliente.</p>
+                <div class="s-btns"><span class="p">Solicitar cotação</span><span class="g">Rastrear pedido</span></div>
+                <div class="stats">
+                  <div><strong>12 mil+</strong><small>entregas por mês</small></div>
+                  <div><strong>98,7%</strong><small>dentro do prazo</small></div>
+                  <div><strong>27</strong><small>estados atendidos</small></div>
+                </div>
+              </div>
+              <div class="s-visual">
+                <div class="blob"></div>
+                <div class="halo" id="halo"></div>
+                <div class="target" id="target"><img src="./img/site/alex.webp" alt="" id="landed"></div>
+                <div class="track"><small>Pedido #4821</small><strong>Saiu para entrega</strong><div class="bar"></div><small>Previsão: hoje, até 18:00</small></div>
+                <div class="chip"><b>✓</b>Coleta confirmada</div>
+              </div>
+            </div>
+            <div class="s-cards">
+              <div><strong>Coleta agendada</strong><small>Buscamos na sua empresa no horário que você escolher.</small></div>
+              <div><strong>Rastreio em tempo real</strong><small>Cada etapa do pedido no painel e no WhatsApp.</small></div>
+              <div><strong>Armazenagem</strong><small>Estoque seguro e separado pronto para envio.</small></div>
+            </div>
+          </div>
+          <div class="screen-glow" id="glow"></div>
+        </div>
+      </div>
+      <div class="stand"></div>
+      <div class="foot"></div>
+    </div>
+  </div>
+</section>
+
+<!-- I · Interesse -->
+<section class="section interest band" aria-labelledby="interest-title">
+  <div class="wrap">
+    <div class="section__head" data-reveal>
+      <p class="eyebrow">O seu site hoje</p>
+      <h2 id="interest-title">Sua empresa trabalha muito. Seu site deveria trabalhar junto.</h2>
+      <p class="lead">O cliente pesquisa, encontra sua empresa e entra no site. Em poucos segundos ele decide se pede uma cotação ou procura o concorrente.</p>
+    </div>
+    <div class="pains">
+      <article class="pain" data-reveal>
+        <span class="pain__n">01</span>
+        <h3>Um site que só existe</h3>
+        <p>Desatualizado, lento no celular e sem um caminho claro até o contato. Ele está no ar, mas não traz clientes.</p>
+      </article>
+      <article class="pain" data-reveal>
+        <span class="pain__n">02</span>
+        <h3>Contatos que se perdem</h3>
+        <p>Pedidos chegam por e-mail, WhatsApp e telefone, sem qualificação. Ninguém sabe quem respondeu nem quem ficou sem resposta.</p>
+      </article>
+      <article class="pain" data-reveal>
+        <span class="pain__n">03</span>
+        <h3>Operação presa em planilhas</h3>
+        <p>Cotações, pedidos e relatórios feitos à mão. Sua equipe gasta horas copiando dados em vez de vender e atender.</p>
+      </article>
+    </div>
+    <p class="turn" data-reveal>A Horzone constrói <em>o site que atrai e o sistema que organiza</em>, conectados para o seu negócio funcionar 24 horas por dia.</p>
+  </div>
+</section>
+
+<!-- D · Desejo 1: o cenário -->
+<section class="section day band" aria-labelledby="day-title">
+  <div class="inner">
+    <div class="section__head" data-reveal>
+      <p class="eyebrow">Imagine sua segunda-feira</p>
+      <h2 id="day-title">Seu negócio começa a vender antes de você chegar.</h2>
+      <p class="lead">Site, formulários, WhatsApp e painel conversando entre si. É assim que a operação da Fluxa passou a funcionar.</p>
+    </div>
+    <ol class="timeline">
+      <li class="moment" data-reveal>
+        <time>06h58</time>
+        <div><h3>Um gestor de compras encontra seu site no Google</h3><p>A página abre rápido no celular e explica em segundos o que você faz e para quem.</p></div>
+      </li>
+      <li class="moment" data-reveal>
+        <time>07h02</time>
+        <div><h3>Ele pede uma cotação pelo formulário inteligente</h3><p>As perguntas certas qualificam o pedido: volume, região, prazo. Nada de “me chama no direct”.</p></div>
+      </li>
+      <li class="moment" data-reveal>
+        <time>07h03</time>
+        <div><h3>O lead cai organizado no seu sistema</h3><p>Seu time recebe o aviso no WhatsApp e o contato já está no CRM, com histórico e prioridade.</p></div>
+      </li>
+      <li class="moment moment--end" data-reveal>
+        <time>09h00</time>
+        <div><h3>Você abre o painel e só precisa fechar negócio</h3><p>Pedidos priorizados, propostas prontas para enviar e a semana inteira à vista.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- D · Desejo 2: antes e depois -->
+<section class="section compare band" aria-labelledby="compare-title">
+  <div class="wrap">
+    <div class="section__head section__head--center" data-reveal>
+      <p class="eyebrow">Da bagunça ao controle</p>
+      <h2 id="compare-title">Pare de apagar incêndios. Comece a enxergar o negócio.</h2>
+      <p class="lead">Quando site e sistema trabalham juntos, cada cliente deixa um rastro organizado, do primeiro clique ao pedido entregue.</p>
+    </div>
+    <div class="versus">
+      <div class="side side--before" data-reveal>
+        <span class="side__tag">Sem estrutura</span>
+        <div class="mock mock--sheet" aria-hidden="true">
+          <div class="sheet">
+            <span class="h">Cliente</span><span class="h">Pedido</span><span class="h">Status</span><span class="h">Resp.</span>
+            <span>Transportes Lima</span><span>???</span><span class="x">sem resposta</span><span>—</span>
+            <span>contato site</span><span>ver e-mail</span><span>pendente</span><span>?</span>
+            <span>Grupo Ávila (cópia)</span><span>cotação v3</span><span class="x">atrasado</span><span>Ana?</span>
+            <span>whats 11 9…</span><span>—</span><span>—</span><span>—</span>
+          </div>
+          <div class="msgs"><span>Alguém respondeu o cliente de ontem?</span><span>Achei que era você 😅</span></div>
+        </div>
+        <ul class="checks">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>Leads espalhados em e-mail, WhatsApp e planilha</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>Retrabalho e informações desencontradas</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>Decisões no achismo, sem números</li>
+        </ul>
+      </div>
+      <div class="side side--after" data-reveal>
+        <span class="side__tag">Site + sistema Horzone</span>
+        <div class="mock mock--panel" aria-hidden="true">
+          <div class="kpis">
+            <div><small>Novos leads</small><strong>18</strong></div>
+            <div><small>Em proposta</small><strong>7</strong></div>
+            <div><small>Fechados</small><strong>4</strong></div>
+          </div>
+          <div class="cols"><i style="height:38%"></i><i style="height:52%"></i><i style="height:45%"></i><i style="height:66%"></i><i style="height:60%"></i><i style="height:82%"></i><i style="height:94%"></i></div>
+          <div class="feed"><span>Cotação qualificada · Grupo Ávila</span><span>Proposta enviada · Transportes Lima</span></div>
+        </div>
+        <ul class="checks">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Todos os contatos em um só painel</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Atendimento automatizado e no tempo certo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Indicadores para decidir com clareza</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Benefícios -->
+<section class="section benefits band" aria-labelledby="benefits-title">
+  <div class="wrap">
+    <div class="section__head section__head--center" data-reveal>
+      <p class="eyebrow">O que você ganha</p>
+      <h2 id="benefits-title">Tecnologia sob medida, sem você precisar entender de código.</h2>
+    </div>
+    <div class="grid-3">
+      <article class="benefit" data-reveal>
+        <span class="benefit__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span>
+        <h3>Site de alta conversão</h3>
+        <p>Páginas construídas com o método AIDA para guiar o visitante da atenção até o pedido de contato.</p>
+      </article>
+      <article class="benefit" data-reveal>
+        <span class="benefit__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16l-6 8v6l-4 2v-8z"/></svg></span>
+        <h3>Leads capturados e qualificados</h3>
+        <p>Formulários inteligentes que filtram curiosos e entregam ao seu time os contatos prontos para comprar.</p>
+      </article>
+      <article class="benefit" data-reveal>
+        <span class="benefit__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.6 0l3-3a4 4 0 0 0-5.6-5.6l-1 1"/><path d="M14 10a4 4 0 0 0-5.6 0l-3 3a4 4 0 0 0 5.6 5.6l1-1"/></svg></span>
+        <h3>Tudo integrado</h3>
+        <p>Site conectado a WhatsApp, e-mail e CRM. A informação flui sozinha, sem copiar e colar.</p>
+      </article>
+      <article class="benefit" data-reveal>
+        <span class="benefit__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span>
+        <h3>Painéis e sistemas sob medida</h3>
+        <p>Dashboards, portais e geradores de propostas desenhados para o jeito que a sua empresa trabalha.</p>
+      </article>
+      <article class="benefit" data-reveal>
+        <span class="benefit__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 11h.01M12 11h.01M15 11h.01"/></svg></span>
+        <h3>Atendimento automatizado</h3>
+        <p>Fluxos de WhatsApp e IA que respondem, agendam e encaminham, mesmo fora do horário comercial.</p>
+      </article>
+      <article class="benefit" data-reveal>
+        <span class="benefit__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></span>
+        <h3>Seguro, rápido e encontrável</h3>
+        <p>SSL, domínio próprio, SEO, hospedagem gerenciada 24/7 e backups diários. A infraestrutura fica com a gente.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Planos -->
+<section class="section plans band" id="planos" aria-labelledby="plans-title">
+  <div class="wrap">
+    <div class="section__head section__head--center" data-reveal>
+      <p class="eyebrow">Investimento</p>
+      <h2 id="plans-title">Do site que vende ao sistema que organiza.</h2>
+      <p class="lead">Comece pelo site e evolua para um sistema completo quando sua operação pedir.</p>
+    </div>
+    <div class="plan-grid">
+      <article class="plan plan--featured" data-reveal>
+        <span class="plan__flag">Mais popular</span>
+        <div><p class="plan__tag">Sites</p><h3 class="plan__name">Horzone Pro</h3><p class="plan__who">Para clínicas, imobiliárias, B2B e empresas de serviços.</p></div>
+        <div class="price"><small>Setup</small><strong>A partir de R$ 2.800</strong><span>ou parcelado no cartão</span><em>+ R$ 149 / mês <span>· Hospedagem + Suporte + Ajustes</span></em></div>
+        <ul class="checks">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Site institucional / landing page de alta conversão (AIDA)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Formulário inteligente de captura e qualificação de leads</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Integração direta com WhatsApp, e-mail e CRM</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Animações interativas e SEO</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Certificado SSL + domínio próprio configurado</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Entrega em 12 a 20 dias</li>
+        </ul>
+        <a class="btn btn--primary" href="https://wa.me/qr/GEGVWDDK4XMDP1" target="_blank" rel="noopener noreferrer">Desenvolver meu site ↗</a>
+      </article>
+      <article class="plan" data-reveal>
+        <div><p class="plan__tag">Sistemas</p><h3 class="plan__name">Horzone Custom</h3><p class="plan__who">Para empresas com processos complexos, SaaS e automações.</p></div>
+        <div class="price"><small>Setup</small><strong>Sob consulta</strong><span>Projetos a partir de R$ 5.000</span><em>Sob medida <span>· a partir de R$ 290/mês</span></em></div>
+        <ul class="checks">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Desenvolvimento full-stack sob medida (React/Node.js)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Painéis administrativos, dashboards e portais</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Simuladores interativos e geradores de propostas</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Automação de atendimento (WhatsApp Flows / IA)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Gestão do projeto em sprints + SLA de suporte prioritário</li>
+        </ul>
+        <a class="btn btn--ghost" href="https://wa.me/qr/GEGVWDDK4XMDP1" target="_blank" rel="noopener noreferrer">Falar com consultor ↗</a>
+      </article>
+    </div>
+    <p class="plans__note" data-reveal>Todos os planos incluem hospedagem gerenciada 24/7, certificado de segurança SSL e backups diários.</p>
+  </div>
+</section>
+
+<!-- A · Ação -->
+<section class="action band" aria-labelledby="action-title">
+  <div class="wrap" data-reveal>
+    <img class="action__avatar" src="./img/site/alex.webp" alt="">
+    <p class="eyebrow" style="color:#d4cfff">Sua vez</p>
+    <h2 id="action-title">Coloque sua empresa para trabalhar na tela dos seus clientes.</h2>
+    <p>Conte para a Horzone como sua operação funciona hoje. A gente desenha o site e o sistema certos para o seu momento, sem pacotes engessados.</p>
+    <div class="action__buttons">
+      <a class="btn btn--primary" href="https://wa.me/qr/GEGVWDDK4XMDP1" target="_blank" rel="noopener noreferrer">Quero meu site no WhatsApp ↗</a>
+      <a class="btn btn--ghost" href="./#contato">Prefiro deixar meu contato</a>
+    </div>
+    <ol class="action__steps">
+      <li><b>1.</b> Diagnóstico da sua operação</li>
+      <li><b>2.</b> Projeto sob medida</li>
+      <li><b>3.</b> Site e sistema no ar</li>
+    </ol>
+  </div>
+</section>
+
+<footer class="footer band">
+  <p style="margin:0">Sites e sistemas por <a href="./">Horzone tecnologia</a>. Alex e a Fluxa são ilustrativos.</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(() => {
+  gsap.registerPlugin(ScrollTrigger);
+
+  const slot = document.getElementById('slot');       // posição original (nunca se move)
+  const box = document.getElementById('box');         // o que viaja
+  const target = document.getElementById('target');   // destino dentro do site
+  const landed = document.getElementById('landed');   // cópia do Alex que fica no site
+  const glow = document.getElementById('glow');
+  const halo = document.getElementById('halo');
+  const monitor = document.getElementById('monitor');
+  const floorShadow = document.getElementById('floorShadow');
+
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    gsap.set(landed, { opacity: 1 });
+    return;
+  }
+
+  // Distância e escala entre o Alex do hero e o lugar dele no site
+  function delta() {
+    const a = slot.getBoundingClientRect();
+    const b = target.getBoundingClientRect();
+    return {
+      x: (b.left + b.width / 2) - (a.left + a.width / 2),
+      y: (b.top + b.height / 2) - (a.top + a.height / 2),
+      s: b.height / a.height
+    };
+  }
+
+  let d = delta();
+  ScrollTrigger.addEventListener('refreshInit', () => { d = delta(); });
+
+  const tl = gsap.timeline({
+    defaults: { ease: 'none' },
+    scrollTrigger: {
+      trigger: slot,
+      start: 0,                            // começa no primeiro movimento do scroll
+      endTrigger: monitor,
+      end: 'center 50%',                   // termina com o monitor no centro da tela
+      scrub: 1.2,                          // segue o scroll com um atraso suave
+      invalidateOnRefresh: true
+    }
+  });
+
+  // 1. O Alex desliza até o hero do site, encolhendo até o tamanho exato do destino
+  tl.to(box, { x: () => d.x, y: () => d.y, scale: () => d.s, ease: 'power1.inOut', duration: 1 }, 0)
+    .to(floorShadow, { opacity: 0, scaleX: 0.5, duration: 0.2 }, 0)
+    // 2. a tela acende enquanto ele se aproxima
+    .to(glow, { opacity: 1, duration: 0.25 }, 0.68)
+    // 3. troca pela cópia dentro do site (mesma imagem, mesmo lugar: a troca não aparece)
+    .to(landed, { opacity: 1, duration: 0.08 }, 0.92)
+    .to(box, { opacity: 0, duration: 0.08 }, 0.92)
+    .to(halo, { opacity: 1, duration: 0.06 }, 0.9)
+    .to(halo, { opacity: 0, duration: 0.06 }, 0.96)
+    .to(glow, { opacity: 0, duration: 0.08 }, 0.92);
+
+  // 4. As seções de venda entram suavemente, em sequência, ao aparecer na tela
+  gsap.set('[data-reveal]', { opacity: 0, y: 28 });
+  ScrollTrigger.batch('[data-reveal]', {
+    start: 'top 88%',
+    once: true,
+    onEnter: (items) => gsap.to(items, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.08 })
+  });
+})();
+</script>
+</body>
+</html>

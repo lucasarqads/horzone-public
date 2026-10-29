@@ -132,6 +132,12 @@ export default function LandingPage() {
     });
   }, []);
 
+  // Links externos como /#contato (vindos da página da BioWeb) chegam antes da seção existir.
+  useEffect(() => {
+    const sectionId = window.location.hash.slice(1);
+    if (sectionId) document.getElementById(sectionId)?.scrollIntoView();
+  }, []);
+
   useEffect(() => {
     const preventContextMenu = (event: MouseEvent) => {
       event.preventDefault();
@@ -194,7 +200,8 @@ export default function LandingPage() {
         };
         const revealTrigger = (trigger: HTMLElement): ScrollTrigger.Vars => ({
           trigger,
-          start: "top 85%",
+          // clamp: no fim da página (rodapé) o ponto 85% pode ser inalcançável; assim o reveal ainda dispara.
+          start: "clamp(top 85%)",
           toggleActions: "none none none none",
           onEnter: playReveal,
           onLeaveBack: isMobile ? undefined : reverseReveal,
@@ -522,26 +529,25 @@ export default function LandingPage() {
               Desenvolvemos ecossistemas digitais sob medida — de vitrines interativas a sistemas operacionais — para atrair clientes, automatizar atendimentos e transformar o seu negócio em uma estrutura de vendas 24 horas por dia.
             </p>
             <div data-gsap="hero-actions" className="landing-hero-actions mt-9 flex flex-col gap-3 sm:flex-row">
+              <a
+                href="/bioweb.html"
+                className="rounded-full bg-indigo-600 px-7 py-3.5 text-center text-sm font-semibold text-white shadow-xl shadow-indigo-600/20 transition hover:-translate-y-0.5 hover:bg-indigo-700"
+              >
+                Descubra a BioWeb
+              </a>
+              <a
+                href="/site.html"
+                className="rounded-full border border-indigo-200 bg-indigo-50 px-7 py-3.5 text-center text-sm font-semibold text-indigo-700 transition hover:border-indigo-300 hover:bg-indigo-100"
+              >
+                Sistema para negócios
+              </a>
               <button
                 type="button"
                 onClick={() => scrollToSection("planos")}
-                className="rounded-full bg-indigo-600 px-7 py-3.5 text-center text-sm font-semibold text-white shadow-xl shadow-indigo-600/20 transition hover:-translate-y-0.5 hover:bg-indigo-700"
+                className="rounded-full border border-slate-300 bg-white/70 px-7 py-3.5 text-center text-sm font-semibold text-slate-800 transition hover:border-indigo-300 hover:bg-white"
               >
                 Conheça os planos
               </button>
-              <button
-                type="button"
-                onClick={() => scrollToSection("tudo-conectado")}
-                className="rounded-full border border-slate-300 bg-white/70 px-7 py-3.5 text-center text-sm font-semibold text-slate-800 transition hover:border-indigo-300 hover:bg-white"
-              >
-                Descubra a BioWeb
-              </button>
-              <a
-                href="/portfolio-demo"
-                className="rounded-full border border-indigo-200 bg-indigo-50 px-7 py-3.5 text-center text-sm font-semibold text-indigo-700 transition hover:border-indigo-300 hover:bg-indigo-100"
-              >
-                Ver demonstração
-              </a>
             </div>
             <div data-gsap="hero-proof" className="landing-hero-proof mt-10 flex flex-col items-center gap-3 text-sm text-slate-600 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
               <span><strong className="text-slate-950">✓</strong> Vitrine e captura 24/7</span>
@@ -598,7 +604,7 @@ export default function LandingPage() {
           </div>
           <ol data-gsap="stagger" className="grid w-full max-w-5xl gap-4 text-left md:grid-cols-3">
             {[
-              ["01", "Preencha o formulario", "Encontre o formato que combina com o momento da sua carreira."],
+              ["01", "Preencha o formulário", "Encontre o formato que combina com o momento da sua carreira."],
               ["02", "Conte sua história", "Compartilhe seus links, sua bio e os trabalhos que quer destacar."],
               ["03", "Divulgue seu perfil", "Envie seu site para marcas, clientes e para a bio das suas redes."],
             ].map(([number, title, description]) => (
