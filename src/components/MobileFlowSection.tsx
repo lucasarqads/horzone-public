@@ -137,7 +137,7 @@ export default function MobileFlowSection() {
           <div className={styles.steps} aria-label={`Etapas de ${flow.label}`}>
             {flow.steps.map((step, index) => <button className={`${styles.step} ${activeStep === index ? styles.stepActive : ""}`} key={step} type="button" onClick={() => setActiveStep(index)}><span className={styles.stepNumber}>{index + 1}</span><span className={styles.stepText}>{step}</span></button>)}
           </div>
-          <a className={styles.cta} href="#contato">Criar Minha BioWeb <span aria-hidden="true">↗</span></a>
+          <a className={styles.cta} href="/bioweb.html">Criar Minha BioWeb <span aria-hidden="true">↗</span></a>
         </div>
 
         <div className={styles.simulatorArea}>
