@@ -410,6 +410,7 @@ export default function LandingPage() {
           String(formData.get("instagram") ?? "").trim() || undefined,
         plan: selectedPlan || "Ainda quero conhecer",
         message: String(formData.get("message") ?? "").trim(),
+        website: String(formData.get("website") ?? ""),
       });
       form.reset();
       setSelectedPlan("");
@@ -694,6 +695,13 @@ export default function LandingPage() {
               <textarea id="contact-message" required name="message" rows={4} minLength={5} maxLength={2000} aria-invalid={Boolean(formErrors.message)} aria-describedby={formErrors.message ? "contact-message-error" : undefined} onBlur={(event) => validateFieldOnBlur("message", event.currentTarget.value)} onChange={() => clearFieldError("message")} className={`mt-2 w-full resize-y rounded-xl border bg-[#faf9f6] px-4 py-3 text-base font-normal outline-none transition focus:ring-4 md:text-sm ${formErrors.message ? "border-red-500 focus:border-red-500 focus:ring-red-500/10" : "border-slate-300 focus:border-indigo-500 focus:ring-indigo-500/10"}`} placeholder="Conte um pouco sobre você e seu trabalho..." />
               {formErrors.message && <span id="contact-message-error" className="mt-1 block text-xs font-medium text-red-600">{formErrors.message}</span>}
             </label>
+            {/* Honeypot anti-spam: invisível para pessoas, preenchido apenas por robôs. */}
+            <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+              <label>
+                Website
+                <input name="website" type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
+              </label>
+            </div>
             <button type="submit" disabled={isSubmitting} className="mt-6 w-full rounded-full bg-indigo-600 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:opacity-60">
               {isSubmitting && (
                 <span

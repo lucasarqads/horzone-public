@@ -5,6 +5,8 @@ export interface LeadSubmission {
   instagram?: string;
   plan: string;
   message: string;
+  /** Honeypot anti-spam: deve ser enviado vazio. */
+  website?: string;
 }
 
 export class LeadServiceError extends Error {
