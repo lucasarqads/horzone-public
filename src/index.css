@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+/* notebook (até ~14"): desktop com pouca altura útil */
+@custom-variant baixa (@media (min-width: 1024px) and (max-height: 800px));
+
+@theme {
+  --color-paper: #ffffff;
+  --color-ink: #0b0d12;
+  --color-muted: #5b606b;
+  --color-line: #e6e7ea;
+  --color-wall: #f2f1ed; /* tom da parede da foto final (zone) */
+  --color-brand: #0450e6;
+
+  --font-display: "Anton", "Impact", sans-serif;
+  --font-sans: "Instrument Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --ease-out-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background: var(--color-wall); /* a janela sem fundo do Sobre mostra este tom */
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  /* nada vaza na horizontal no celular (clip não quebra o position: sticky) */
+  overflow-x: clip;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+  a:focus-visible,
+  button:focus-visible {
+    border-radius: 999px;
+  }
+}
